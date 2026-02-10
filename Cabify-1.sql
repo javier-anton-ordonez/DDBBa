@@ -90,16 +90,16 @@ CREATE TABLE IF NOT EXISTS `Usuario` (
 ) COMMENT='Tabla de Usuario del sistema';
 
 
--- Tabla de Ubicaciones del sistema
+-- Tabla de Ubicacion del sistema
 
-CREATE TABLE IF NOT EXISTS `Ubicaciones` (
+CREATE TABLE IF NOT EXISTS `Ubicacion` (
     `id` BIGINT NOT NULL,
     `TipoAvenida` VARCHAR(10),
     `Nombre` VARCHAR(10),
     `Numero` VARCHAR(10),
     `Anadido` DATETIME,
     PRIMARY KEY (`id`)
-) COMMENT='Tabla de Ubicaciones del sistema';
+) COMMENT='Tabla de Ubicacion del sistema';
 
 
 
@@ -211,8 +211,8 @@ CREATE TABLE IF NOT EXISTS `Posicion` (
 -- Foreign key constraints
 ALTER TABLE `Conductor` ADD CONSTRAINT `fk_Conductor_EmpresaID` FOREIGN KEY(`EmpresaID`) REFERENCES `Compania`(`id`);
 ALTER TABLE `Usuario` ADD CONSTRAINT `fk_Usuario_id` FOREIGN KEY(`id`) REFERENCES `Informacion_Bancaria`(`UsuarioId`);
-ALTER TABLE `Ubicaciones` ADD CONSTRAINT `fk_Ubicaciones_id` FOREIGN KEY(`id`) REFERENCES `Oferta`(`DestinoId`);
-ALTER TABLE `Ubicaciones` ADD CONSTRAINT `fk_Ubicaciones_id` FOREIGN KEY(`id`) REFERENCES `Oferta`(`OrigenId`);
+ALTER TABLE `Ubicacion` ADD CONSTRAINT `fk_Ubicacion_id` FOREIGN KEY(`id`) REFERENCES `Oferta`(`DestinoId`);
+ALTER TABLE `Ubicacion` ADD CONSTRAINT `fk_Ubicacion_id` FOREIGN KEY(`id`) REFERENCES `Oferta`(`OrigenId`);
 ALTER TABLE `Usuario` ADD CONSTRAINT `fk_Usuario_id` FOREIGN KEY(`id`) REFERENCES `Oferta`(`UsuarioId`);
 ALTER TABLE `Permisos` ADD CONSTRAINT `fk_Permisos_id` FOREIGN KEY(`id`) REFERENCES `RolesPermisos`(`PermisosID`);
 ALTER TABLE `Roles` ADD CONSTRAINT `fk_Roles_id` FOREIGN KEY(`id`) REFERENCES `RolesPermisos`(`RolID`);
@@ -223,7 +223,7 @@ ALTER TABLE `UsuarioUbicacion` ADD CONSTRAINT `fk_UsuarioUbicacion_TipoID` FOREI
 ALTER TABLE `Informacion_Bancaria` ADD CONSTRAINT `fk_Informacion_Bancaria_id` FOREIGN KEY(`id`) REFERENCES `Transacciones`(`CuentaId`);
 ALTER TABLE `Viaje` ADD CONSTRAINT `fk_Viaje_id` FOREIGN KEY(`id`) REFERENCES `Transacciones`(`ViajeId`);
 ALTER TABLE `Conductor` ADD CONSTRAINT `fk_Conductor_UsuarioId` FOREIGN KEY(`UsuarioId`) REFERENCES `Usuario`(`id`);
-ALTER TABLE `Ubicaciones` ADD CONSTRAINT `fk_Ubicaciones_id` FOREIGN KEY(`id`) REFERENCES `UsuarioUbicacion`(`UbicacionID`);
+ALTER TABLE `Ubicacion` ADD CONSTRAINT `fk_Ubicacion_id` FOREIGN KEY(`id`) REFERENCES `UsuarioUbicacion`(`UbicacionID`);
 ALTER TABLE `Usuario` ADD CONSTRAINT `fk_Usuario_id` FOREIGN KEY(`id`) REFERENCES `UsuarioUbicacion`(`UsuarioId`);
 ALTER TABLE `Conductor` ADD CONSTRAINT `fk_Conductor_VehiculoID` FOREIGN KEY(`VehiculoID`) REFERENCES `Vehiculo`(`id`);
 ALTER TABLE `Conductor` ADD CONSTRAINT `fk_Conductor_id` FOREIGN KEY(`id`) REFERENCES `Viaje`(`ConductorID`);

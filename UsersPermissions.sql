@@ -48,6 +48,7 @@ GRANT 'Rol_Analiticas' TO 'PortalAnaliticas'@'127.0.0.1';
 GRANT SELECT ON Cabify.* TO 'Rol_Analiticas';
 
 -- Permisos del BackGroundJob gestor de pagos
+
 -- Escritura
 GRANT INSERT, SELECT ON Cabify.Transacciones TO 'Rol_BackGroundJob';
 -- Lectura
@@ -60,9 +61,24 @@ GRANT SELECT ON Cabify.Informacion_Bancaria TO 'Rol_BackGroundJob';
 
 -- Permisos de las aplicaciones movil
 -- Escritura
+GRANT INSERT, UPDATE ON Cabify.Usuario TO 'Rol_AppConductores', 'Rol_AppGeneral';
+GRANT INSERT, UPDATE ON Cabify.Telemetria TO 'Rol_AppConductores', 'Rol_AppGeneral';
+GRANT INSERT, UPDATE ON Cabify.Viaje TO 'Rol_AppConductores', 'Rol_AppGeneral';
+GRANT INSERT, UPDATE ON Cabify.Informacion_Bancaria TO 'Rol_AppConductores', 'Rol_AppGeneral';
+
+GRANT INSERT on Cabify.Oferta TO 'Rol_AppGeneral';
+GRANT INSERT on Cabify.Ubicacion TO 'Rol_AppGeneral';
+
+GRANT INSERT on Cabify.Conductor TO 'Rol_AppConductores';
+GRANT INSERT on Cabify.Vehiculo TO 'Rol_AppConductores';
+GRANT INSERT on Cabify.Posicion TO 'Rol_AppConductores';
 
 -- Lectura
+GRANT SELECT ON Cabify.* TO 'Rol_AppGeneral';
+GRANT SELECT ON Cabify.* TO 'Rol_AppConductores';
 
+REVOKE SELECT ON Cabify.Transacciones TO 'Rol_AppConductores';
+REVOKE SELECT ON Cabify.Transacciones TO 'Rol_AppGeneral';
 -- Permisos del Admin
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'127.0.0.1';
 REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
@@ -70,7 +86,7 @@ REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
 -- Permisos de los desarrolladores
 
 -- Lectura
-GRANT SELECT, ALTER, CREATE, DELETE, UPDATE, INSERT, INDEX ON Cabify.* TO 'Rol_Desarrollo';
+GRANT SELECT, ALTER, CREATE, DELETE, UPDATE, INSERT, PROCESS,INDEX ON Cabify.* TO 'Rol_Desarrollo';
 
 REVOKE UPDATE ON Cabify.Transacciones TO 'Rol_Desarrollo'; 
 
