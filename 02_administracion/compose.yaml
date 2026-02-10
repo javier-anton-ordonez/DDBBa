@@ -1,0 +1,107 @@
+services:
+  # ============================================
+  # PRIMARIO - Acepta escrituras
+  # ============================================
+  mysql-primary:
+    image: mysql:8.0
+    container_name: mysql-primary
+    hostname: mysql-primary
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: universidad
+      MYSQL_USER: app
+      MYSQL_PASSWORD: apppass
+    volumes:
+      - primary_data:/var/lib/mysql
+      - ./mysql/primary.cnf:/etc/mysql/conf.d/server.cnf:ro
+      - ./mysql/init-primary.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./mysql/schema.sql:/docker-entrypoint-initdb.d/02-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - mysql-cluster
+
+  # ============================================
+  # RÉPLICA 1 - Solo lecturas
+  # ============================================
+  mysql-replica1:
+    image: mysql:8.0
+    container_name: mysql-replica1
+    hostname: mysql-replica1
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - replica1_data:/var/lib/mysql
+      - ./mysql/replica.cnf:/etc/mysql/conf.d/server.cnf:ro
+      - ./mysql/init-replica.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    depends_on:
+      mysql-primary:
+        condition: service_healthy
+    networks:
+      - mysql-cluster
+
+  # ============================================
+  # RÉPLICA 2 - Solo lecturas
+  # ============================================
+  mysql-replica2:
+    image: mysql:8.0
+    container_name: mysql-replica2
+    hostname: mysql-replica2
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - replica2_data:/var/lib/mysql
+      - ./mysql/replica2.cnf:/etc/mysql/conf.d/server.cnf:ro
+      - ./mysql/init-replica.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    depends_on:
+      mysql-primary:
+        condition: service_healthy
+    networks:
+      - mysql-cluster
+
+  # ============================================
+  # CONFIGURADOR - Inicia la replicación
+  # ============================================
+  replication-setup:
+    image: mysql:8.0
+    container_name: replication-setup
+    depends_on:
+      mysql-primary:
+        condition: service_healthy
+      mysql-replica1:
+        condition: service_healthy
+      mysql-replica2:
+        condition: service_healthy
+    volumes:
+      - ./mysql/setup-replication.sh:/setup-replication.sh:ro
+    entrypoint: ["/bin/bash", "/setup-replication.sh"]
+    networks:
+      - mysql-cluster
+
+networks:
+  mysql-cluster:
+    driver: bridge
+
+volumes:
+  primary_data:
+  replica1_data:
+  replica2_data:

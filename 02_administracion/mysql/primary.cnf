@@ -1,0 +1,40 @@
+# ============================================
+# Configuración del PRIMARIO
+# ============================================
+
+[mysqld]
+# --- Identificación del servidor ---
+server_id = 1
+
+# --- Binary Log (requerido para replicación) ---
+log_bin = mysql-bin
+binlog_format = ROW                    # Más seguro que STATEMENT
+binlog_expire_logs_seconds = 604800    # Retención: 7 días
+max_binlog_size = 100M                 # Rotar binlog cada 100MB
+sync_binlog = 1                        # Durabilidad: sync en cada commit
+
+# --- GTID (replicación moderna) ---
+gtid_mode = ON
+enforce_gtid_consistency = ON
+
+# --- InnoDB Tunning ---
+innodb_buffer_pool_size = 256M         # Ajustar según RAM disponible (60-80%)
+innodb_log_file_size = 64M             # Redo log más grande = menos I/O
+innodb_flush_log_at_trx_commit = 1     # Durabilidad máxima
+innodb_flush_method = O_DIRECT         # Evita doble buffering
+
+# --- Conexiones ---
+max_connections = 200
+max_connect_errors = 100000
+
+# --- Validación estricta ---
+sql_mode = STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+
+# --- Logs para diagnóstico ---
+log_error_verbosity = 3
+slow_query_log = 1
+long_query_time = 1
+
+# --- Character set ---
+character_set_server = utf8mb4
+collation_server = utf8mb4_0900_ai_ci
