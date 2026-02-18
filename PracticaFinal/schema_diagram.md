@@ -1,11 +1,5 @@
-# Diseño de base de datos.
+# Diagrama de Base de Datos - Schema
 
-## Indice
-1. [Diseño Entidad Relación](#diseño-entidad-relación)
-2. [Tablas](#tablas)
-3. [Relaciones](#relaciones)
-
-## Diseño Entidad Relación.
 ```mermaid
 erDiagram
     Permisos {
@@ -165,38 +159,3 @@ erDiagram
     Oferta ||--o{ Viaje : "origina"
     Conductor ||--o{ Posicion : "registra"
 ```
-
-
-## Tablas.
-
-### Usuario
-### Información Bancaria
-### Roles
-### Permisos
-### Telemetría
-### Ubicaciones
-### Oferta
-### Viaje
-### Conductor
-### Vehículo
-### Compañía
-### Ubicación
-### Transacciones
-
-## Relaciones.
-
-### Vehículo-Conductor
-### Conductor-Compañía
-### Conductor-Ubicación
-### Conductor-Viaje
-### Transacciones-Viaje
-### Oferta-Viaje
-### Ubicaciones-Oferta
-### Usuario-Oferta
-### Usuario-Telemetría
-### Usuario-Información-bancaria
-### Usuario-Roles
-### Roles-Permisos
-
-
-
