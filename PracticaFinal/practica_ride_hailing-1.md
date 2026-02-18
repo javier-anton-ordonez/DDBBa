@@ -41,12 +41,12 @@ Al final, el día de la defensa, se debe presentar el proyecto, explicando el di
 
 ## Nombre de cada entregable
 
-- `schema.sql`: esquema de la base de datos, crea la base de datos, las tablas e índices.
+- ~~`schema.sql`: esquema de la base de datos, crea la base de datos, las tablas e índices.~~
 - `data.sql`: datos de prueba, inserta datos de prueba en las tablas.
 - `queries.sql`: consultas para la operativa.
 - `dashboard.sql`: consultas para el dashboard.
 - `backup.sql`: plan de backup y recuperación.
-- `permissions.sql`: permisos para la seguridad del sistema.
+- ~~`permissions.sql`: permisos para la seguridad del sistema.~~
 - `compose.yml`: despliegue de la base de datos y el dashboard.
 - `README.md`: instrucciones para arrancar la base de datos y el dashboard, y cargar datos de prueba.
 - `DESIGN.md`: explica el diseño de la base de datos, las tablas, índices, etc. Usar Markdown y Mermaid (sobre todo para el MER).
