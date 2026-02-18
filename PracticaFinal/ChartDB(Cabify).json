@@ -1,0 +1,1864 @@
+{
+  "id": "0",
+  "name": "Cabify",
+  "createdAt": "2026-02-03T11:02:18.263Z",
+  "updatedAt": "2026-02-10T09:00:45.255Z",
+  "databaseType": "mysql",
+  "tables": [
+    {
+      "id": "1",
+      "name": "Permisos",
+      "order": 9,
+      "fields": [
+        {
+          "id": "2",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293552952
+        },
+        {
+          "id": "3",
+          "name": "Nombre",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374438292,
+          "characterMaximumLength": "50"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "4",
+          "name": "",
+          "fieldIds": [
+            "2"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293552952
+        }
+      ],
+      "x": 378.1810007803039,
+      "y": 861.0450365037267,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293552952,
+      "comments": "Tabla de Permisos del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "5",
+      "name": "Informacion Bancaria",
+      "order": 3,
+      "fields": [
+        {
+          "id": "6",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293552951
+        },
+        {
+          "id": "7",
+          "name": "UserId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307735315
+        },
+        {
+          "id": "8",
+          "name": "IBAN",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307210294
+        },
+        {
+          "id": "9",
+          "name": "Dia",
+          "type": {
+            "name": "int",
+            "id": "int",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307210295
+        },
+        {
+          "id": "10",
+          "name": "Mes",
+          "type": {
+            "name": "int",
+            "id": "int",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307210295
+        }
+      ],
+      "indexes": [
+        {
+          "id": "11",
+          "name": "",
+          "fieldIds": [
+            "6"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293552951
+        }
+      ],
+      "x": -281.25,
+      "y": 85,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293552951,
+      "comments": "Tabla de Informacion bancaria del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "12",
+      "name": "Roles",
+      "order": 8,
+      "fields": [
+        {
+          "id": "13",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293552952
+        },
+        {
+          "id": "14",
+          "name": "Nombre",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581,
+          "characterMaximumLength": "20"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "15",
+          "name": "",
+          "fieldIds": [
+            "13"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293552952
+        }
+      ],
+      "x": 82.1563059047262,
+      "y": 752.3866964361857,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293552952,
+      "comments": "Tabla de Roles del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "16",
+      "name": "Viaje",
+      "order": 7,
+      "fields": [
+        {
+          "id": "17",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770375684976
+        },
+        {
+          "id": "18",
+          "name": "Inicio",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375684976
+        },
+        {
+          "id": "19",
+          "name": "Fin",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375684976
+        },
+        {
+          "id": "20",
+          "name": "Estado",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375684976,
+          "characterMaximumLength": "20",
+          "comments": "Tiene que ser uno de los siguientes:\nEstado:\n- Solicitado\n- Aceptado\n- En curso\n- Finalizado\n- Cancelado"
+        },
+        {
+          "id": "21",
+          "name": "Nota",
+          "type": {
+            "name": "smallint",
+            "id": "smallint"
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375684976
+        },
+        {
+          "id": "22",
+          "name": "Comentario",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375684976,
+          "characterMaximumLength": "255"
+        },
+        {
+          "id": "23",
+          "name": "ConductorID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375684976
+        },
+        {
+          "id": "24",
+          "name": "OfertaID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375684976
+        }
+      ],
+      "indexes": [
+        {
+          "id": "25",
+          "name": "",
+          "fieldIds": [
+            "17"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770375684976
+        }
+      ],
+      "x": -300,
+      "y": 760,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770375684976,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "26",
+      "name": "TipoUbicacion",
+      "order": 2,
+      "fields": [
+        {
+          "id": "27",
+          "name": "Id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375003065
+        },
+        {
+          "id": "28",
+          "name": "Nombre",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375003065,
+          "characterMaximumLength": "10",
+          "comments": "'Historico', 'Trabajo', 'Casa'"
+        }
+      ],
+      "indexes": [],
+      "x": 680,
+      "y": -440,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770375003065,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "29",
+      "name": "Vehiculo",
+      "order": 1,
+      "fields": [
+        {
+          "id": "30",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293552950
+        },
+        {
+          "id": "31",
+          "name": "Matricula",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": false,
+          "primaryKey": false,
+          "unique": true,
+          "createdAt": 1770306658992,
+          "characterMaximumLength": "7"
+        },
+        {
+          "id": "32",
+          "name": "Plazas",
+          "type": {
+            "name": "int",
+            "id": "int",
+            "usageLevel": 1
+          },
+          "nullable": false,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770306658992
+        },
+        {
+          "id": "33",
+          "name": "Marca",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": false,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770306658992,
+          "characterMaximumLength": "50"
+        },
+        {
+          "id": "34",
+          "name": "Modelo",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": false,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770306658992,
+          "characterMaximumLength": "50"
+        },
+        {
+          "id": "35",
+          "name": "Alta",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": false,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770306737211
+        },
+        {
+          "id": "36",
+          "name": "Estado",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770306737211,
+          "characterMaximumLength": "20"
+        },
+        {
+          "id": "37",
+          "name": "Update",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770306737211
+        },
+        {
+          "id": "38",
+          "name": "Baja",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374349105
+        }
+      ],
+      "indexes": [
+        {
+          "id": "39",
+          "name": "",
+          "fieldIds": [
+            "30"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293552950
+        }
+      ],
+      "x": 700,
+      "y": 260,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293552950,
+      "comments": "Tabla de Vehiculo del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "40",
+      "name": "User",
+      "order": 0,
+      "fields": [
+        {
+          "id": "41",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293449387
+        },
+        {
+          "id": "42",
+          "name": "Name",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770302634170,
+          "characterMaximumLength": "50"
+        },
+        {
+          "id": "43",
+          "name": "Apellido",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770302695753,
+          "characterMaximumLength": "50"
+        },
+        {
+          "id": "44",
+          "name": "Email",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": true,
+          "createdAt": 1770306082746,
+          "characterMaximumLength": "100"
+        },
+        {
+          "id": "45",
+          "name": "Numero",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": true,
+          "createdAt": 1770307813565,
+          "characterMaximumLength": "20"
+        },
+        {
+          "id": "46",
+          "name": "Genero",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374077324,
+          "characterMaximumLength": "10"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "47",
+          "name": "",
+          "fieldIds": [
+            "41"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293449387
+        }
+      ],
+      "x": 20,
+      "y": 20,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293449387,
+      "comments": "Tabla de Usuario del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "48",
+      "name": "Posicion",
+      "x": 1075.826280623608,
+      "y": -307.6881959910914,
+      "fields": [
+        {
+          "id": "49",
+          "name": "id",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "unique": true,
+          "nullable": false,
+          "primaryKey": true,
+          "createdAt": 1770713977560
+        },
+        {
+          "id": "50",
+          "name": "Latitud",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "unique": false,
+          "nullable": true,
+          "primaryKey": false,
+          "createdAt": 1770713996133,
+          "characterMaximumLength": "20"
+        },
+        {
+          "id": "51",
+          "name": "Longitud",
+          "type": {
+            "id": "varchar",
+            "name": "varchar"
+          },
+          "unique": false,
+          "nullable": true,
+          "primaryKey": false,
+          "createdAt": 1770714009056,
+          "characterMaximumLength": "20"
+        },
+        {
+          "id": "52",
+          "name": "Hora",
+          "type": {
+            "id": "timestamp",
+            "name": "timestamp"
+          },
+          "unique": false,
+          "nullable": true,
+          "primaryKey": false,
+          "createdAt": 1770714028077
+        },
+        {
+          "id": "53",
+          "name": "DriverID",
+          "type": {
+            "id": "bigint",
+            "name": "bigint"
+          },
+          "unique": false,
+          "nullable": true,
+          "primaryKey": false,
+          "createdAt": 1770714034670
+        }
+      ],
+      "indexes": [
+        {
+          "id": "54",
+          "name": "",
+          "fieldIds": [
+            "49"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770713977560
+        }
+      ],
+      "color": "#8eb7ff",
+      "createdAt": 1770713977560,
+      "isView": false,
+      "order": 16,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "55",
+      "name": "Ubicaciones",
+      "order": 5,
+      "fields": [
+        {
+          "id": "56",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293552951
+        },
+        {
+          "id": "57",
+          "name": "TipoAvenida",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581,
+          "characterMaximumLength": "10"
+        },
+        {
+          "id": "58",
+          "name": "Nombre",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581,
+          "characterMaximumLength": "10"
+        },
+        {
+          "id": "59",
+          "name": "Numero",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581,
+          "characterMaximumLength": "10"
+        },
+        {
+          "id": "60",
+          "name": "Anadido",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581
+        }
+      ],
+      "indexes": [
+        {
+          "id": "61",
+          "name": "",
+          "fieldIds": [
+            "56"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293552951
+        }
+      ],
+      "x": 360,
+      "y": -100,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293552951,
+      "comments": "Tabla de Ubicaciones del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "62",
+      "name": "UserUbicacion",
+      "order": 1,
+      "fields": [
+        {
+          "id": "63",
+          "name": "UserId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374880919
+        },
+        {
+          "id": "64",
+          "name": "UbicacionID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374880919
+        },
+        {
+          "id": "65",
+          "name": "UltimaVezUsada",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374880919
+        },
+        {
+          "id": "66",
+          "name": "VecesUsada",
+          "type": {
+            "name": "int",
+            "id": "int",
+            "usageLevel": 1
+          },
+          "nullable": false,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374880919,
+          "increment": true
+        },
+        {
+          "id": "67",
+          "name": "TipoID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375003065
+        }
+      ],
+      "indexes": [],
+      "x": 320,
+      "y": -340,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770374880919,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "68",
+      "name": "RolesPermisos",
+      "order": 9,
+      "fields": [
+        {
+          "id": "69",
+          "name": "RolID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": false,
+          "createdAt": 1770374408309
+        },
+        {
+          "id": "70",
+          "name": "PermisosID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": false,
+          "createdAt": 1770374408309
+        }
+      ],
+      "indexes": [
+        {
+          "id": "71",
+          "name": "",
+          "fieldIds": [
+            "69",
+            "70"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770374408309
+        }
+      ],
+      "x": 0.52701396019161,
+      "y": 895.4976809153861,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770374408309,
+      "comments": "Tabla de Roles del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "72",
+      "name": "Conductor",
+      "order": 2,
+      "fields": [
+        {
+          "id": "73",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293552950
+        },
+        {
+          "id": "74",
+          "name": "VehiculoID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307013956
+        },
+        {
+          "id": "75",
+          "name": "CarnetDeConducir",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374349105,
+          "characterMaximumLength": "50",
+          "comments": "Es la direccion del carnet"
+        },
+        {
+          "id": "76",
+          "name": "Documentacion",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374349105,
+          "characterMaximumLength": "20"
+        },
+        {
+          "id": "77",
+          "name": "Alta",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374349105
+        },
+        {
+          "id": "78",
+          "name": "Estado",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374349105,
+          "characterMaximumLength": "20"
+        },
+        {
+          "id": "79",
+          "name": "EmpresaID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770374528579
+        },
+        {
+          "id": "80",
+          "name": "UserId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": true,
+          "createdAt": 1770374528579
+        }
+      ],
+      "indexes": [
+        {
+          "id": "81",
+          "name": "",
+          "fieldIds": [
+            "73"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293552950
+        }
+      ],
+      "x": 700,
+      "y": -140,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293552950,
+      "comments": "Tabla de Conductores del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "82",
+      "name": "Telemetria",
+      "order": 6,
+      "fields": [
+        {
+          "id": "83",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770307735316
+        },
+        {
+          "id": "84",
+          "name": "UserId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": true,
+          "createdAt": 1770307735316
+        },
+        {
+          "id": "85",
+          "name": "TiempoEnApp",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770308258109
+        },
+        {
+          "id": "86",
+          "name": "CookiesAceptadas",
+          "type": {
+            "id": "bool",
+            "name": "bool"
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770308258109
+        },
+        {
+          "id": "87",
+          "name": "UltimaVezConnectado",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770330652991
+        },
+        {
+          "id": "88",
+          "name": "NumeroViajes",
+          "type": {
+            "name": "smallint",
+            "id": "smallint"
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770373979915,
+          "default": "0"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "89",
+          "name": "",
+          "fieldIds": [
+            "83"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770307735316
+        }
+      ],
+      "x": -40,
+      "y": -340,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770307735316,
+      "comments": "Tabla de Informacion privada de los usuarios del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "90",
+      "name": "Transacciones",
+      "order": 8,
+      "fields": [
+        {
+          "id": "91",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293573372
+        },
+        {
+          "id": "92",
+          "name": "Cantidad",
+          "type": {
+            "name": "double",
+            "id": "double"
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770308034847
+        },
+        {
+          "id": "93",
+          "name": "CuentaId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770308034847
+        },
+        {
+          "id": "94",
+          "name": "momento",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770308034847
+        },
+        {
+          "id": "95",
+          "name": "ViajeId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770308034847
+        }
+      ],
+      "indexes": [
+        {
+          "id": "96",
+          "name": "",
+          "fieldIds": [
+            "91"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293573372
+        }
+      ],
+      "x": -320,
+      "y": 420,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293573372,
+      "comments": "Tabla de Transacciones del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "97",
+      "name": "Oferta",
+      "order": 4,
+      "fields": [
+        {
+          "id": "98",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293552951
+        },
+        {
+          "id": "99",
+          "name": "Hora",
+          "type": {
+            "name": "timestamp",
+            "id": "timestamp",
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375174055
+        },
+        {
+          "id": "100",
+          "name": "Precio",
+          "type": {
+            "name": "double",
+            "id": "double"
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375174055
+        },
+        {
+          "id": "101",
+          "name": "Descuento",
+          "type": {
+            "name": "double",
+            "id": "double"
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375174055
+        },
+        {
+          "id": "102",
+          "name": "OrigenId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375174055
+        },
+        {
+          "id": "103",
+          "name": "DestinoId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375174055
+        },
+        {
+          "id": "104",
+          "name": "UsuarioId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770375215786
+        }
+      ],
+      "indexes": [
+        {
+          "id": "105",
+          "name": "",
+          "fieldIds": [
+            "98"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293552951
+        }
+      ],
+      "x": 360,
+      "y": 360,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293552951,
+      "comments": "Tabla de Ofertas de viajes del sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "106",
+      "name": "Compania",
+      "order": 10,
+      "fields": [
+        {
+          "id": "107",
+          "name": "id",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true,
+          "createdAt": 1770293552952
+        },
+        {
+          "id": "108",
+          "name": "Nombre",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581
+        },
+        {
+          "id": "109",
+          "name": "Logo",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581,
+          "characterMaximumLength": "50"
+        },
+        {
+          "id": "110",
+          "name": "Email",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581,
+          "characterMaximumLength": "50"
+        },
+        {
+          "id": "111",
+          "name": "Numero",
+          "type": {
+            "name": "varchar",
+            "id": "varchar",
+            "fieldAttributes": {
+              "hasCharMaxLength": true
+            },
+            "usageLevel": 1
+          },
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "createdAt": 1770307622581,
+          "characterMaximumLength": "20"
+        }
+      ],
+      "indexes": [
+        {
+          "id": "112",
+          "name": "",
+          "fieldIds": [
+            "107"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770293552952
+        }
+      ],
+      "x": 1020,
+      "y": 20,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770293552952,
+      "comments": "Tabla de Companias relacionadas al sistema",
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "113",
+      "name": "RolesUser",
+      "order": 8,
+      "fields": [
+        {
+          "id": "114",
+          "name": "RolID",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": false,
+          "createdAt": 1770374349106
+        },
+        {
+          "id": "115",
+          "name": "UserId",
+          "type": {
+            "name": "bigint",
+            "id": "bigint",
+            "usageLevel": 2
+          },
+          "nullable": false,
+          "primaryKey": true,
+          "unique": false,
+          "createdAt": 1770374349106
+        }
+      ],
+      "indexes": [
+        {
+          "id": "116",
+          "name": "",
+          "fieldIds": [
+            "114",
+            "115"
+          ],
+          "unique": true,
+          "isPrimaryKey": true,
+          "createdAt": 1770374349106
+        }
+      ],
+      "x": 26.50203416281491,
+      "y": 521.818999219696,
+      "color": "#8eb7ff",
+      "isView": false,
+      "createdAt": 1770374349106,
+      "comments": "Tabla de Roles del sistema",
+      "diagramId": "u9jlndcxzpne"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "117",
+      "name": "Compania_id_Conductor_EmpresaID",
+      "sourceTableId": "106",
+      "targetTableId": "72",
+      "sourceFieldId": "107",
+      "targetFieldId": "79",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1770374528581,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "118",
+      "name": "Informacion Bancaria_UserId_fk",
+      "sourceTableId": "5",
+      "targetTableId": "40",
+      "sourceFieldId": "7",
+      "targetFieldId": "41",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770307745062,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "119",
+      "name": "Oferta_DestinoId_fk",
+      "sourceTableId": "97",
+      "targetTableId": "55",
+      "sourceFieldId": "103",
+      "targetFieldId": "56",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770375200306,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "120",
+      "name": "Oferta_OrigenId_fk",
+      "sourceTableId": "97",
+      "targetTableId": "55",
+      "sourceFieldId": "102",
+      "targetFieldId": "56",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770375204231,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "121",
+      "name": "Oferta_UsuarioId_fk",
+      "sourceTableId": "97",
+      "targetTableId": "40",
+      "sourceFieldId": "104",
+      "targetFieldId": "41",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770375223542,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "122",
+      "name": "Posicion_DriverID_fk",
+      "sourceTableId": "48",
+      "targetTableId": "72",
+      "sourceFieldId": "53",
+      "targetFieldId": "73",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770714045255,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "123",
+      "name": "RolesPermisos_PermisosID_fk",
+      "sourceTableId": "68",
+      "targetTableId": "1",
+      "sourceFieldId": "70",
+      "targetFieldId": "2",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770374419839,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "124",
+      "name": "RolesPermisos_RolID_fk",
+      "sourceTableId": "68",
+      "targetTableId": "12",
+      "sourceFieldId": "69",
+      "targetFieldId": "13",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770374416411,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "125",
+      "name": "RolesUser_RolID_Roles_id",
+      "sourceTableId": "113",
+      "targetTableId": "12",
+      "sourceFieldId": "114",
+      "targetFieldId": "13",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770374349106,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "126",
+      "name": "RolesUser_UserId_fk",
+      "sourceTableId": "113",
+      "targetTableId": "40",
+      "sourceFieldId": "115",
+      "targetFieldId": "41",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770374364610,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "127",
+      "name": "Telemetria_UserId_fk",
+      "sourceTableId": "82",
+      "targetTableId": "40",
+      "sourceFieldId": "84",
+      "targetFieldId": "41",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770307754651,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "128",
+      "name": "TipoUbicacion_Id_fk",
+      "sourceTableId": "26",
+      "targetTableId": "62",
+      "sourceFieldId": "27",
+      "targetFieldId": "67",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770375009919,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "129",
+      "name": "Transacciones_CuentaId_fk",
+      "sourceTableId": "90",
+      "targetTableId": "5",
+      "sourceFieldId": "93",
+      "targetFieldId": "6",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770375057197,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "130",
+      "name": "Transacciones_ViajeId_fk",
+      "sourceTableId": "90",
+      "targetTableId": "16",
+      "sourceFieldId": "95",
+      "targetFieldId": "17",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770375712688,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "131",
+      "name": "User_id_Conductor_UserId",
+      "sourceTableId": "40",
+      "targetTableId": "72",
+      "sourceFieldId": "41",
+      "targetFieldId": "80",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770374528581,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "132",
+      "name": "UserUbicacion_UbicacionID_fk",
+      "sourceTableId": "62",
+      "targetTableId": "55",
+      "sourceFieldId": "64",
+      "targetFieldId": "56",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770374900012,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "133",
+      "name": "UserUbicacion_UserId_fk",
+      "sourceTableId": "62",
+      "targetTableId": "40",
+      "sourceFieldId": "63",
+      "targetFieldId": "41",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770374896049,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "134",
+      "name": "Vehiculo_id_fk",
+      "sourceTableId": "29",
+      "targetTableId": "72",
+      "sourceFieldId": "30",
+      "targetFieldId": "74",
+      "sourceCardinality": "one",
+      "targetCardinality": "many",
+      "createdAt": 1770307026462,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "135",
+      "name": "Viaje_ConductorID_fk",
+      "sourceTableId": "16",
+      "targetTableId": "72",
+      "sourceFieldId": "23",
+      "targetFieldId": "73",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770375708173,
+      "diagramId": "u9jlndcxzpne"
+    },
+    {
+      "id": "136",
+      "name": "Viaje_OfertaID_fk",
+      "sourceTableId": "16",
+      "targetTableId": "97",
+      "sourceFieldId": "24",
+      "targetFieldId": "98",
+      "sourceCardinality": "one",
+      "targetCardinality": "one",
+      "createdAt": 1770375704776,
+      "diagramId": "u9jlndcxzpne"
+    }
+  ],
+  "dependencies": [],
+  "areas": [],
+  "customTypes": [
+    {
+      "id": "137",
+      "name": "estadoViaje",
+      "kind": "enum",
+      "values": [
+        "solicitado",
+        "aceptado",
+        "en_curso",
+        "finalizado",
+        "cancelado"
+      ],
+      "order": 0,
+      "diagramId": "u9jlndcxzpne"
+    }
+  ],
+  "notes": []
+}
