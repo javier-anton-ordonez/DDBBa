@@ -170,10 +170,41 @@ erDiagram
 ## Tablas.
 
 ### Usuario
+   Esta es la tabla de usuario del sistema.
+   Campos:
+   - Id: Identificador en el sistema.
+   - Name: Nombre del usuario.
+   - Apellido: Apellido del usuario.
+   - Email: Email del usuario.
+   - Numero: Numero de teléfono del usuario.
+   - Genero: Genero del usuario Hombre/Mujer/otro.
 ### Información Bancaria
+   Tabla de la información bancaria de un usuario para hacer pagos y para sacar dinero.
+   Campos:
+   - Id: Identificador en el sistema.
+   - UsuarioId: Foreign Key que referencia al usuario de quien es la cuenta.
+   - IBAN: Es el IBAN de la cuenta.
+   - Día: Es el día de caducidad de la tarjeta
+   - Mes: Es el mes de caducidad de la cuenta.
 ### Roles
+   Tabla de roles de la aplicación (Conductor, Pasajero, Administrador, Desarrollador).
+   Campos.
+   - Id: Identificador en el sistema.
+   - Nombre: Nombre del rol.
 ### Permisos
+   Tabla de permisos, si un rol solo tiene acceso a los permisos que se le asigne.
+   Campos:
+   - Id: Identificador en el sistema.
+   - Nombre: Nombre del permiso.
 ### Telemetría
+   Tabla de información captada de uso de la aplicación.
+   Campos:
+   - Id: Identificador en el sistema.
+   - UsuarioId: El usuario del cual se ha recolectado esta información. 
+   - TiempoEnApp: El tiempo que el usuario ha invertido en la aplicación.
+   - CookiesAceptadas: Si a aceptado o declinado las cookies.
+   - UltimaVezConnectado: La fecha y hora de ultima vez entrado en la aplicación.
+   - NumeroViajes: Numero de viajes que ha solicitado un viaje.
 ### Ubicaciones
 ### Oferta
 ### Viaje
