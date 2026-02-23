@@ -214,7 +214,7 @@ erDiagram
 ### Ubicación
 ### Transacciones
 
-## Relaciones.
+## Relaciones. (Guille)
 
 ### Vehículo-Conductor
 ### Conductor-Compañía
