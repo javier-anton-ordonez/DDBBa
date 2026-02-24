@@ -317,15 +317,14 @@ erDiagram
    - Alta: Fecha de alta de la compañía.
    - Editado: Fecha de última edición.
    - Baja: Fecha de baja de la compañía.
-### Ubicación
-   Tabla de direcciones o lugares utilizados como origen, destino o ubicaciones guardadas por los usuarios.
+### Posicion
+   Tabla de la posición en tiempo real de un conductor.
    Campos:
-   - Id: Identificador de la ubicación.
-   - TipoAvenida: Tipo de via (calle, avenida, etc.).
-   - Nombre: Nombre de la calle o lugar.
-   - Numero: Numero de la dirección.
-   - Alta: Fecha en la que se añadió la ubicación.
-   - Editado: Fecha de última edición.
+   - Id: Identificador del campo en la base de datos.
+   - Latitud: Latitud de la posición.
+   - Longitud: Longitud de la posición.
+   - Hora: La hora a la que se ha cogido.
+   - ConductorId: Id del conductor a que refiere esta ubicación.
 ### Transacciones
    Tabla de pagos registrados en el sistema.
    Campos:
