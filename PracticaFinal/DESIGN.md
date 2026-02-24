@@ -121,7 +121,7 @@ erDiagram
         SMALLINT NumeroViajes
         DATETIME Alta
         DATETIME Editado
-        BIGINT UsuarioId FK_UK
+        BIGINT UsuarioId FK,UK
     }
     
     Transacciones {
