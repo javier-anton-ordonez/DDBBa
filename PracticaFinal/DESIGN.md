@@ -110,7 +110,7 @@ erDiagram
         DATETIME Baja
         BIGINT EmpresaId FK
         BIGINT VehiculoId FK
-        BIGINT UsuarioId FK_UK
+        BIGINT UsuarioId FK,UK
     }
     
     Telemetria {
