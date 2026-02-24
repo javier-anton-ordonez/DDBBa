@@ -46,7 +46,7 @@ GRANT 'Rol_Analiticas' TO 'PortalAnaliticas'@'127.0.0.1';
 -- Permisos del PortalAnaliticas
 
 GRANT SELECT ON Cabify.* TO 'Rol_Analiticas';
-
+REVOKE SELECT ON Cabify.Informacion_Bancaria TO 'Rol_Analiticas';
 -- Permisos del BackGroundJob gestor de pagos
 
 -- Escritura
@@ -79,6 +79,8 @@ GRANT SELECT ON Cabify.* TO 'Rol_AppConductores';
 
 REVOKE SELECT ON Cabify.Transacciones TO 'Rol_AppConductores';
 REVOKE SELECT ON Cabify.Transacciones TO 'Rol_AppGeneral';
+REVOKE SELECT ON Cabify.Informacion_Bancaria TO 'Rol_AppConductores';
+REVOKE SELECT ON Cabify.Informacion_Bancaria TO 'Rol_AppGeneral';
 -- Permisos del Admin
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'127.0.0.1';
 REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
@@ -89,4 +91,13 @@ REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
 GRANT SELECT, ALTER, CREATE, DELETE, UPDATE, INSERT, PROCESS,INDEX ON Cabify.* TO 'Rol_Desarrollo';
 
 REVOKE UPDATE ON Cabify.Transacciones TO 'Rol_Desarrollo'; 
+
+
+-- Views
+
+-- Vistas para el dashboard
+
+CREATE VIEW v_usuario_dashboard AS
+SELECT id, Name, Apellido, Genero
+FROM Usuario;
 

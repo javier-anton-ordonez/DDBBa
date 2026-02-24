@@ -9,161 +9,189 @@
 ```mermaid
 erDiagram
     Permisos {
-        BIGINT id PK
+        BIGINT Id PK
         VARCHAR(50) Nombre
+        DATETIME Alta
+        DATETIME Editado
     }
     
     Informacion_Bancaria {
-        BIGINT id PK
-        BIGINT UsuarioId FK
+        BIGINT Id PK
         BIGINT IBAN
         INT Dia
         INT Mes
+        BIGINT UsuarioId FK
+        DATETIME Alta
+        DATETIME Editado
     }
     
     Roles {
-        BIGINT id PK
+        BIGINT Id PK
         VARCHAR(20) Nombre
+        DATETIME Alta
+        DATETIME Editado
     }
     
     Viaje {
-        BIGINT id PK
+        BIGINT Id PK
         DATETIME Inicio
         DATETIME Fin
         VARCHAR(20) Estado
         SMALLINT Nota
         VARCHAR(255) Comentario
-        BIGINT ConductorID FK
-        BIGINT OfertaID FK
+        DATETIME Alta
+        DATETIME Editado
+        BIGINT ConductorId FK
+        BIGINT OfertaId FK
     }
     
     TipoUbicacion {
         BIGINT Id PK
         VARCHAR(10) Nombre
+        DATETIME Alta
+        DATETIME Editado
     }
     
     Vehiculo {
-        BIGINT id PK
+        BIGINT Id PK
         VARCHAR(7) Matricula UK
         INT Plazas
         VARCHAR(50) Marca
         VARCHAR(50) Modelo
-        DATETIME Alta
         VARCHAR(20) Estado
-        DATETIME Update
+        DATETIME Alta
+        DATETIME Editado
         DATETIME Baja
     }
     
     Usuario {
-        BIGINT id PK
-        VARCHAR(50) Name
+        BIGINT Id PK
+        VARCHAR(50) Nombre
         VARCHAR(50) Apellido
         VARCHAR(100) Email UK
         VARCHAR(20) Numero UK
         VARCHAR(10) Genero
+        VARCHAR(10) Estado
+        DATETIME Alta
+        DATETIME Editado
+        DATETIME Baja
     }
     
     Ubicacion {
-        BIGINT id PK
+        BIGINT Id PK
         VARCHAR(10) TipoAvenida
         VARCHAR(10) Nombre
         VARCHAR(10) Numero
-        DATETIME Anadido
+        DATETIME Alta
+        DATETIME Editado
     }
     
     UsuarioUbicacion {
         BIGINT UsuarioId FK
-        BIGINT UbicacionID FK
+        BIGINT UbicacionId FK
         DATETIME UltimaVezUsada
         INT VecesUsada
-        BIGINT TipoID FK
+        BIGINT TipoId FK
     }
     
     RolesPermisos {
-        BIGINT RolID PK,FK
-        BIGINT PermisosID PK,FK
+        BIGINT RolId PK_FK
+        BIGINT PermisosId PK_FK
     }
     
     Conductor {
-        BIGINT id PK
-        BIGINT VehiculoID FK
+        BIGINT Id PK
         VARCHAR(50) CarnetDeConducir
         VARCHAR(20) Documentacion
-        DATETIME Alta
         VARCHAR(20) Estado
-        BIGINT EmpresaID FK
-        BIGINT UsuarioId FK,UK
+        DATETIME FechaDeCaducidadPermiso
+        DATETIME Alta
+        DATETIME Editado
+        DATETIME Baja
+        BIGINT EmpresaId FK
+        BIGINT VehiculoId FK
+        BIGINT UsuarioId FK_UK
     }
     
     Telemetria {
-        BIGINT id PK
-        BIGINT UsuarioId FK,UK
+        BIGINT Id PK
         BIGINT TiempoEnApp
-        TINYINT(1) CookiesAceptadas
+        TINYINT CookiesAceptadas
         DATETIME UltimaVezConnectado
         SMALLINT NumeroViajes
+        DATETIME Alta
+        DATETIME Editado
+        BIGINT UsuarioId FK_UK
     }
     
     Transacciones {
-        BIGINT id PK
+        BIGINT Id PK
         DOUBLE Cantidad
+        DATETIME Momento
+        DATETIME Alta
+        DATETIME Editado
         BIGINT CuentaId FK
-        DATETIME momento
         BIGINT ViajeId FK
     }
     
     Oferta {
-        BIGINT id PK
+        BIGINT Id PK
         DATETIME Hora
         DOUBLE Precio
         DOUBLE Descuento
+        DATETIME Alta
+        DATETIME Editado
+        DATETIME Baja
         BIGINT OrigenId FK
         BIGINT DestinoId FK
         BIGINT UsuarioId FK
     }
     
     Compania {
-        BIGINT id PK
+        BIGINT Id PK
         BIGINT Nombre
         VARCHAR(50) Logo
         VARCHAR(50) Email
         VARCHAR(20) Numero
+        DATETIME Alta
+        DATETIME Editado
+        DATETIME Baja
     }
     
     RolesUsuario {
-        BIGINT RolID PK,FK
-        BIGINT UsuarioId PK,FK
+        BIGINT RolId PK_FK
+        BIGINT UsuarioId PK_FK
     }
     
     Posicion {
-        BIGINT id PK
+        BIGINT Id PK
         VARCHAR(20) Latitud
         VARCHAR(20) Longitud
         DATETIME Hora
-        BIGINT DriverID FK
+        BIGINT ConductorId FK
     }
     
-    %% Relaciones
-    Conductor ||--o{ Compania : "EmpresaID"
-    Usuario ||--o| Informacion_Bancaria : "tiene"
-    Ubicacion ||--o{ Oferta : "DestinoId"
-    Ubicacion ||--o{ Oferta : "OrigenId"
-    Usuario ||--o{ Oferta : "solicita"
-    Permisos ||--o{ RolesPermisos : "tiene"
-    Roles ||--o{ RolesPermisos : "agrupa"
-    Roles ||--o{ RolesUsuario : "asigna"
-    Usuario ||--o{ RolesUsuario : "tiene"
-    Usuario ||--o| Telemetria : "genera"
-    UsuarioUbicacion }o--|| TipoUbicacion : "tipo"
-    Informacion_Bancaria ||--o{ Transacciones : "realiza"
-    Viaje ||--o{ Transacciones : "genera"
-    Conductor ||--o| Usuario : "es"
-    Ubicacion ||--o{ UsuarioUbicacion : "pertenece"
-    Usuario ||--o{ UsuarioUbicacion : "usa"
-    Conductor ||--o| Vehiculo : "conduce"
-    Conductor ||--o{ Viaje : "realiza"
-    Oferta ||--o{ Viaje : "origina"
-    Conductor ||--o{ Posicion : "registra"
+    %% Relaciones (desde tabla con FK hacia tabla referenciada)
+    Informacion_Bancaria }o--|| Usuario : "UsuarioId"
+    Conductor }o--|| Compania : "EmpresaId"
+    Conductor }o--|| Vehiculo : "VehiculoId"
+    Conductor ||--|| Usuario : "UsuarioId"
+    Telemetria ||--|| Usuario : "UsuarioId"
+    Oferta }o--|| Ubicacion : "OrigenId"
+    Oferta }o--|| Ubicacion : "DestinoId"
+    Oferta }o--|| Usuario : "UsuarioId"
+    RolesPermisos }o--|| Permisos : "PermisosId"
+    RolesPermisos }o--|| Roles : "RolId"
+    RolesUsuario }o--|| Roles : "RolId"
+    RolesUsuario }o--|| Usuario : "UsuarioId"
+    UsuarioUbicacion }o--|| TipoUbicacion : "TipoId"
+    UsuarioUbicacion }o--|| Ubicacion : "UbicacionId"
+    UsuarioUbicacion }o--|| Usuario : "UsuarioId"
+    Transacciones }o--|| Informacion_Bancaria : "CuentaId"
+    Transacciones }o--|| Viaje : "ViajeId"
+    Viaje }o--|| Conductor : "ConductorId"
+    Viaje }o--|| Oferta : "OfertaId"
+    Posicion }o--|| Conductor : "ConductorId"
 ```
 
 
@@ -173,108 +201,141 @@ erDiagram
    Esta es la tabla de usuario del sistema.
    Campos:
    - Id: Identificador en el sistema.
-   - Name: Nombre del usuario.
+   - Nombre: Nombre del usuario.
    - Apellido: Apellido del usuario.
    - Email: Email del usuario.
    - Numero: Numero de teléfono del usuario.
    - Genero: Genero del usuario Hombre/Mujer/otro.
+   - Estado: Estado del usuario en el sistema.
+   - Alta: Fecha de alta del usuario.
+   - Editado: Fecha de última edición.
+   - Baja: Fecha de baja del usuario.
 ### Información Bancaria
    Tabla de la información bancaria de un usuario para hacer pagos y para sacar dinero.
    Campos:
    - Id: Identificador en el sistema.
-   - UsuarioId: Foreign Key que referencia al usuario de quien es la cuenta.
    - IBAN: Es el IBAN de la cuenta.
    - Día: Es el día de caducidad de la tarjeta
    - Mes: Es el mes de caducidad de la cuenta.
+   - UsuarioId: Foreign Key que referencia al usuario de quien es la cuenta.
+   - Alta: Fecha de alta de la cuenta.
+   - Editado: Fecha de última edición.
 ### Roles
    Tabla de roles de la aplicación (Conductor, Pasajero, Administrador, Desarrollador).
    Campos.
    - Id: Identificador en el sistema.
    - Nombre: Nombre del rol.
+   - Alta: Fecha de alta del rol.
+   - Editado: Fecha de última edición.
 ### Permisos
    Tabla de permisos, si un rol solo tiene acceso a los permisos que se le asigne.
    Campos:
    - Id: Identificador en el sistema.
    - Nombre: Nombre del permiso.
+   - Alta: Fecha de alta del permiso.
+   - Editado: Fecha de última edición.
 ### Telemetría
    Tabla de información captada de uso de la aplicación.
    Campos:
    - Id: Identificador en el sistema.
-   - UsuarioId: El usuario del cual se ha recolectado esta información. 
    - TiempoEnApp: El tiempo que el usuario ha invertido en la aplicación.
    - CookiesAceptadas: Si a aceptado o declinado las cookies.
    - UltimaVezConnectado: La fecha y hora de ultima vez entrado en la aplicación.
    - NumeroViajes: Numero de viajes que ha solicitado un viaje.
+   - Alta: Fecha de alta del registro.
+   - Editado: Fecha de última edición.
+   - UsuarioId: El usuario del cual se ha recolectado esta información.
 ### Ubicaciones
-??? not found in the mermaid schema
+   Tabla de direcciones o lugares utilizados como origen, destino o ubicaciones guardadas por los usuarios.
+   Campos:
+   - Id: Identificador de la ubicación.
+   - TipoAvenida: Tipo de via (calle, avenida, etc.).
+   - Nombre: Nombre de la calle o lugar.
+   - Numero: Numero de la dirección.
+   - Alta: Fecha en la que se añadió la ubicación.
+   - Editado: Fecha de última edición.
 ### Oferta
    Tabla de solicitudes de viaje creadas por los usuarios.
    Campos:
-   - Id: Identificador de la orferta.
+   - Id: Identificador de la oferta.
    - Hora: hora de la solicitud.
    - Precio: Precio estimado de la solicitud.
    - Descuento: Descuento aplicado.
-   - OrigenId: Ubicacion de origen.
-   - DestinoId: Ubicacion de destino.
+   - Alta: Fecha de alta de la oferta.
+   - Editado: Fecha de última edición.
+   - Baja: Fecha de baja de la oferta.
+   - OrigenId: Ubicación de origen.
+   - DestinoId: Ubicación de destino.
    - UsuarioId: Usuario que solicita el viaje.
 ### Viaje
    Tabla de viajes realizados en la plataforma a partir de una oferta.
    Campos:
    - Id: Identificador del viaje.
    - Inicio: Fecha y hora de inicio del viaje.
-   - Fin: Fecha y hora de finalizacion del viaje.
+   - Fin: Fecha y hora de finalización del viaje.
    - Estado: Estado del viaje.
-   - Nota: Calificacion del viaje.
+   - Nota: Calificación del viaje.
    - Comentario: Comentario asociado al viaje.
-   - ConductorID: Conductor que realiza el viaje.
-   - OfertaID: Oferta asociada al viaje.
+   - Alta: Fecha de alta del viaje.
+   - Editado: Fecha de última edición.
+   - ConductorId: Conductor que realiza el viaje.
+   - OfertaId: Oferta asociada al viaje.
 ### Conductor
    Tabla de conductores registrados en la plataforma.
    Campos:
    - Id: Identificador del conductor.
-   - VehiculoId: Vehiculo asociado al conductor
-   - CarnetDeConducir: Numero del carnet de conducir (?).
-   - Documentacion: Documentacion asociada al conductor (?).
-   - Alta: Fecha de alta del conductor.
+   - CarnetDeConducir: Ubicación del fichero del carnet de conducir.
+   - Documentacion: Documentación de identidad asociada al conductor.
    - Estado: Estado del conductor.
-   - EmpresaId: Compañia asociada al conductor.
+   - FechaDeCaducidadPermiso: Fecha de caducidad del permiso de conducir.
+   - Alta: Fecha de alta del conductor.
+   - Editado: Fecha de última edición.
+   - Baja: Fecha de baja del conductor.
+   - EmpresaId: compañía asociada al conductor.
+   - VehiculoId: vehículo asociado al conductor.
    - UsuarioId: Usuario asociado al conductor.
 ### Vehículo
-   Tabla de vehiculos disponibles en la plataforma para realizar viajes.
+   Tabla de vehículos disponibles en la plataforma para realizar viajes.
    Campos:
-   - Id: Identificador del vehiculo.
-   - Matricula: Matricula del vehiculo.
-   - Plazas: Numero de plazas del vehiculo.
-   - Marca: Marca del vehiculo.
-   - Modelo: Modelo del vehiculo.
-   - Alta: Fecha de alta del vehiculo.
-   - Estado: Estado del vehiculo.
-   - Update: Fecha y hora de la ultima actualizacion.
-   - Baja: Fecha y hora de baja del vehiculo.
+   - Id: Identificador del vehículo.
+   - Matricula: Matricula del vehículo.
+   - Plazas: Numero de plazas del vehículo.
+   - Marca: Marca del vehículo.
+   - Modelo: Modelo del vehículo.
+   - Estado: Estado del vehículo.
+   - Alta: Fecha de alta del vehículo.
+   - Editado: Fecha y hora de la ultima actualización.
+   - Baja: Fecha y hora de baja del vehículo.
 ### Compañía
-   Tabla de compañias asociadas a conductores
+   Tabla de compañías asociadas a conductores
    Campos:
-   - Id: Identificador de la compañia.
-   - Nombre: Nombre de la de la compañia.
-   - Logo: Logo de la compañia. (image in a data base ? how ? link ? URL ?)
-   - Email: Correo electronico de la compañia.
-   - Numero: Numero de contacto de la compañia.
+   - Id: Identificador de la compañía.
+   - Nombre: Nombre de la de la compañía.
+   - Logo: Logo de la compañía, guardado en la url de la imagen.
+   - Email: Correo electrónico de la compañía.
+   - Numero: Numero de contacto de la compañía.
+   - Alta: Fecha de alta de la compañía.
+   - Editado: Fecha de última edición.
+   - Baja: Fecha de baja de la compañía.
 ### Ubicación
    Tabla de direcciones o lugares utilizados como origen, destino o ubicaciones guardadas por los usuarios.
    Campos:
-   - Id: Identificador de la ubicacion.
+   - Id: Identificador de la ubicación.
    - TipoAvenida: Tipo de via (calle, avenida, etc.).
    - Nombre: Nombre de la calle o lugar.
-   - Numero: Numero de la direccion.
-   - Anadido: Fecha en la que se añadio la ubicacion.
+   - Numero: Numero de la dirección.
+   - Alta: Fecha en la que se añadió la ubicación.
+   - Editado: Fecha de última edición.
 ### Transacciones
    Tabla de pagos registrados en el sistema.
    Campos:
-   - Id: Identificador de la transaccion.
-   - Cantidad: Importe de la transaccion.
-   - CuentaId: (?) can't find what it is
-   - Momento: Fecha y hora en la que se realizo la transaccion.
-   - ViajeId: Viaje asociado a la transaccion.
+   - Id: Identificador de la transacción.
+   - Cantidad: Importe de la transacción.
+   - Momento: Fecha y hora en la que se realizo la transacción.
+   - Alta: Fecha de alta de la transacción.
+   - Editado: Fecha de última edición.
+   - CuentaId: Cuenta bancaria asociada a la transacción.
+   - ViajeId: Viaje asociado a la transacción.
 
 ## Relaciones. (Guille)
 
