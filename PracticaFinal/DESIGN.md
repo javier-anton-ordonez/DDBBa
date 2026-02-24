@@ -206,13 +206,75 @@ erDiagram
    - UltimaVezConnectado: La fecha y hora de ultima vez entrado en la aplicación.
    - NumeroViajes: Numero de viajes que ha solicitado un viaje.
 ### Ubicaciones
+??? not found in the mermaid schema
 ### Oferta
+   Tabla de solicitudes de viaje creadas por los usuarios.
+   Campos:
+   - Id: Identificador de la orferta.
+   - Hora: hora de la solicitud.
+   - Precio: Precio estimado de la solicitud.
+   - Descuento: Descuento aplicado.
+   - OrigenId: Ubicacion de origen.
+   - DestinoId: Ubicacion de destino.
+   - UsuarioId: Usuario que solicita el viaje.
 ### Viaje
+   Tabla de viajes realizados en la plataforma a partir de una oferta.
+   Campos:
+   - Id: Identificador del viaje.
+   - Inicio: Fecha y hora de inicio del viaje.
+   - Fin: Fecha y hora de finalizacion del viaje.
+   - Estado: Estado del viaje.
+   - Nota: Calificacion del viaje.
+   - Comentario: Comentario asociado al viaje.
+   - ConductorID: Conductor que realiza el viaje.
+   - OfertaID: Oferta asociada al viaje.
 ### Conductor
+   Tabla de conductores registrados en la plataforma.
+   Campos:
+   - Id: Identificador del conductor.
+   - VehiculoId: Vehiculo asociado al conductor
+   - CarnetDeConducir: Numero del carnet de conducir (?).
+   - Documentacion: Documentacion asociada al conductor (?).
+   - Alta: Fecha de alta del conductor.
+   - Estado: Estado del conductor.
+   - EmpresaId: Compañia asociada al conductor.
+   - UsuarioId: Usuario asociado al conductor.
 ### Vehículo
+   Tabla de vehiculos disponibles en la plataforma para realizar viajes.
+   Campos:
+   - Id: Identificador del vehiculo.
+   - Matricula: Matricula del vehiculo.
+   - Plazas: Numero de plazas del vehiculo.
+   - Marca: Marca del vehiculo.
+   - Modelo: Modelo del vehiculo.
+   - Alta: Fecha de alta del vehiculo.
+   - Estado: Estado del vehiculo.
+   - Update: Fecha y hora de la ultima actualizacion.
+   - Baja: Fecha y hora de baja del vehiculo.
 ### Compañía
+   Tabla de compañias asociadas a conductores
+   Campos:
+   - Id: Identificador de la compañia.
+   - Nombre: Nombre de la de la compañia.
+   - Logo: Logo de la compañia. (image in a data base ? how ? link ? URL ?)
+   - Email: Correo electronico de la compañia.
+   - Numero: Numero de contacto de la compañia.
 ### Ubicación
+   Tabla de direcciones o lugares utilizados como origen, destino o ubicaciones guardadas por los usuarios.
+   Campos:
+   - Id: Identificador de la ubicacion.
+   - TipoAvenida: Tipo de via (calle, avenida, etc.).
+   - Nombre: Nombre de la calle o lugar.
+   - Numero: Numero de la direccion.
+   - Anadido: Fecha en la que se añadio la ubicacion.
 ### Transacciones
+   Tabla de pagos registrados en el sistema.
+   Campos:
+   - Id: Identificador de la transaccion.
+   - Cantidad: Importe de la transaccion.
+   - CuentaId: (?) can't find what it is
+   - Momento: Fecha y hora en la que se realizo la transaccion.
+   - ViajeId: Viaje asociado a la transaccion.
 
 ## Relaciones. (Guille)
 
