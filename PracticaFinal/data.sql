@@ -23,7 +23,7 @@ INSERT INTO `TipoUbicacion` (`Id`, `Nombre`) VALUES
 -- ============================================
 -- USUARIOS (100 usuarios)
 -- ============================================
-INSERT INTO `Usuario` (`id`, `Name`, `Apellido`, `Email`, `Numero`, `Genero`) VALUES
+INSERT INTO `Usuario` (`id`, `Nombre`, `Apellido`, `Email`, `Numero`, `Genero`) VALUES
 (1, 'Carlos', 'García Martínez', 'carlos.garcia@email.com', '+34600111001', 'Masculino'),
 (2, 'María', 'López Sánchez', 'maria.lopez@email.com', '+34600111002', 'Femenino'),
 (3, 'Juan', 'Martínez Pérez', 'juan.martinez@email.com', '+34600111003', 'Masculino'),
@@ -342,7 +342,7 @@ START TRANSACTION;
 -- ============================================
 -- VEHÍCULOS (20 vehículos: 10 activos, 10 dados de baja)
 -- ============================================
-INSERT INTO `Vehiculo` (`id`, `Matricula`, `Plazas`, `Marca`, `Modelo`, `Alta`, `Estado`, `Update`, `Baja`) VALUES
+INSERT INTO `Vehiculo` (`id`, `Matricula`, `Plazas`, `Marca`, `Modelo`, `Alta`, `Estado`, `Editado`, `Baja`) VALUES
 (1, '1234ABC', 4, 'Toyota', 'Prius', '2024-01-15 10:00:00', 'Activo', '2025-09-01 12:00:00', NULL),
 (2, '5678DEF', 4, 'Seat', 'Leon', '2023-06-20 09:30:00', 'Activo', '2025-10-15 14:30:00', NULL),
 (3, '9012GHI', 5, 'Volkswagen', 'Passat', '2024-03-10 11:15:00', 'Activo', '2025-11-20 16:00:00', NULL),
@@ -399,7 +399,7 @@ INSERT INTO `Conductor` (`id`, `VehiculoID`, `CarnetDeConducir`, `Documentacion`
 -- ============================================
 -- UBICACIONES (50 ubicaciones en Madrid)
 -- ============================================
-INSERT INTO `Ubicacion` (`id`, `TipoAvenida`, `Nombre`, `Numero`, `Anadido`) VALUES
+INSERT INTO `Ubicacion` (`id`, `TipoAvenida`, `Nombre`, `Numero`, `Alta`) VALUES
 (1, 'Calle', 'Gran Vía', '28', '2025-09-01 10:00:00'),
 (2, 'Avenida', 'Castellana', '45', '2025-09-01 10:15:00'),
 (3, 'Plaza', 'Mayor', '1', '2025-09-01 10:30:00'),
@@ -2177,7 +2177,7 @@ INSERT INTO `UsuarioUbicacion` (`UsuarioId`, `UbicacionID`, `UltimaVezUsada`, `V
 -- POSICIONES DE CONDUCTORES (últimas posiciones de conductores activos)
 -- Se generan varias posiciones para conductores en servicio
 -- ============================================
-INSERT INTO `Posicion` (`id`, `Latitud`, `Longitud`, `Hora`, `DriverID`) VALUES
+INSERT INTO `Posicion` (`id`, `Latitud`, `Longitud`, `Hora`, `ConductorId`) VALUES
 (1, '40.4168', '-3.7038', '2026-02-17 15:30:00', 1),
 (2, '40.4200', '-3.7050', '2026-02-17 15:35:00', 1),
 (3, '40.4220', '-3.7065', '2026-02-17 15:40:00', 1),

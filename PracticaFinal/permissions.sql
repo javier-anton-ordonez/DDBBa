@@ -45,59 +45,59 @@ GRANT 'Rol_Analiticas' TO 'PortalAnaliticas'@'127.0.0.1';
 
 -- Permisos del PortalAnaliticas
 
-GRANT SELECT ON Cabify.* TO 'Rol_Analiticas';
-REVOKE SELECT ON Cabify.Informacion_Bancaria TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.* TO 'Rol_Analiticas';
+-- REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_Analiticas';
 -- Permisos del BackGroundJob gestor de pagos
 
 -- Escritura
-GRANT INSERT, SELECT ON Cabify.Transacciones TO 'Rol_BackGroundJob';
+GRANT INSERT, SELECT ON ride_hailing_db.Transacciones TO 'Rol_BackGroundJob';
 -- Lectura
-GRANT SELECT ON Cabify.Viaje TO 'Rol_BackGroundJob';
-GRANT SELECT ON Cabify.Oferta TO 'Rol_BackGroundJob';
-GRANT SELECT ON Cabify.Viaje TO 'Rol_BackGroundJob';
-GRANT SELECT ON Cabify.Usuario TO 'Rol_BackGroundJob';
+GRANT SELECT ON ride_hailing_db.Viaje TO 'Rol_BackGroundJob';
+GRANT SELECT ON ride_hailing_db.Oferta TO 'Rol_BackGroundJob';
+GRANT SELECT ON ride_hailing_db.Viaje TO 'Rol_BackGroundJob';
+GRANT SELECT ON ride_hailing_db.Usuario TO 'Rol_BackGroundJob';
 
-GRANT SELECT ON Cabify.Informacion_Bancaria TO 'Rol_BackGroundJob';
+GRANT SELECT ON ride_hailing_db.Informacion_Bancaria TO 'Rol_BackGroundJob';
 
 -- Permisos de las aplicaciones movil
 -- Escritura
-GRANT INSERT, UPDATE ON Cabify.Usuario TO 'Rol_AppConductores', 'Rol_AppGeneral';
-GRANT INSERT, UPDATE ON Cabify.Telemetria TO 'Rol_AppConductores', 'Rol_AppGeneral';
-GRANT INSERT, UPDATE ON Cabify.Viaje TO 'Rol_AppConductores', 'Rol_AppGeneral';
-GRANT INSERT, UPDATE ON Cabify.Informacion_Bancaria TO 'Rol_AppConductores', 'Rol_AppGeneral';
+GRANT INSERT, UPDATE ON ride_hailing_db.Usuario TO 'Rol_AppConductores', 'Rol_AppGeneral';
+GRANT INSERT, UPDATE ON ride_hailing_db.Telemetria TO 'Rol_AppConductores', 'Rol_AppGeneral';
+GRANT INSERT, UPDATE ON ride_hailing_db.Viaje TO 'Rol_AppConductores', 'Rol_AppGeneral';
+GRANT INSERT, UPDATE ON ride_hailing_db.Informacion_Bancaria TO 'Rol_AppConductores', 'Rol_AppGeneral';
 
-GRANT INSERT on Cabify.Oferta TO 'Rol_AppGeneral';
-GRANT INSERT on Cabify.Ubicacion TO 'Rol_AppGeneral';
+GRANT INSERT on ride_hailing_db.Oferta TO 'Rol_AppGeneral';
+GRANT INSERT on ride_hailing_db.Ubicacion TO 'Rol_AppGeneral';
 
-GRANT INSERT on Cabify.Conductor TO 'Rol_AppConductores';
-GRANT INSERT on Cabify.Vehiculo TO 'Rol_AppConductores';
-GRANT INSERT on Cabify.Posicion TO 'Rol_AppConductores';
+GRANT INSERT on ride_hailing_db.Conductor TO 'Rol_AppConductores';
+GRANT INSERT on ride_hailing_db.Vehiculo TO 'Rol_AppConductores';
+GRANT INSERT on ride_hailing_db.Posicion TO 'Rol_AppConductores';
 
 -- Lectura
-GRANT SELECT ON Cabify.* TO 'Rol_AppGeneral';
-GRANT SELECT ON Cabify.* TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.* TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.* TO 'Rol_AppConductores';
 
-REVOKE SELECT ON Cabify.Transacciones TO 'Rol_AppConductores';
-REVOKE SELECT ON Cabify.Transacciones TO 'Rol_AppGeneral';
-REVOKE SELECT ON Cabify.Informacion_Bancaria TO 'Rol_AppConductores';
-REVOKE SELECT ON Cabify.Informacion_Bancaria TO 'Rol_AppGeneral';
+-- REVOKE SELECT ON ride_hailing_db.Transacciones FROM 'Rol_AppConductores';
+-- REVOKE SELECT ON ride_hailing_db.Transacciones FROM 'Rol_AppGeneral';
+-- REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_AppConductores';
+-- REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_AppGeneral';
 -- Permisos del Admin
-GRANT ALL PRIVILEGES ON *.* TO 'admin'@'127.0.0.1';
-REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
+-- GRANT ALL PRIVILEGES ON *.* TO 'admin'@'127.0.0.1';
+-- REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
 
 -- Permisos de los desarrolladores
 
 -- Lectura
-GRANT SELECT, ALTER, CREATE, DELETE, UPDATE, INSERT, PROCESS,INDEX ON Cabify.* TO 'Rol_Desarrollo';
+GRANT SELECT, ALTER, CREATE, DELETE, UPDATE, INSERT, INDEX ON ride_hailing_db.* TO 'Rol_Desarrollo';
 
-REVOKE UPDATE ON Cabify.Transacciones TO 'Rol_Desarrollo'; 
+-- REVOKE UPDATE ON ride_hailing_db.Transacciones FROM 'Rol_Desarrollo'; 
 
 
 -- Views
 
 -- Vistas para el dashboard
-CREATE VIEW v_usuario_dashboard AS                                                                                                          │
-SELECT id, Name, Apellido, Genero                                                                                                           │
+CREATE VIEW v_usuario_dashboard AS                                                                                                          
+SELECT id, Nombre, Apellido, Genero                                                                                                           
 FROM Usuario; 
 
 -- USUARIOS DE INFRAESTRUCTURA (NECESARIOS PARA LA ARQUITECTURA 4 NODOS)

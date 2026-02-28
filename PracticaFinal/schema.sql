@@ -7,7 +7,7 @@ START TRANSACTION;
 CREATE TABLE IF NOT EXISTS Permisos (
     Id BIGINT NOT NULL,
     Nombre VARCHAR(50),
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     PRIMARY KEY (Id)
 ) COMMENT='Tabla de Permisos del sistema';
@@ -17,13 +17,13 @@ CREATE TABLE IF NOT EXISTS Permisos (
 
 CREATE TABLE IF NOT EXISTS Informacion_Bancaria (
     Id BIGINT NOT NULL,
-    IBAN BIGINT,
+    IBAN VARCHAR(34),
     Dia INT,
     Mes INT,
   
     UsuarioId BIGINT,
 
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
   PRIMARY KEY (Id)
 ) COMMENT='Tabla de Informacion bancaria del sistema';
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS Roles (
     Id BIGINT NOT NULL,
     Nombre VARCHAR(20),
 
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     PRIMARY KEY (Id)
 ) COMMENT='Tabla de Roles del sistema';
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS Viaje (
     Nota SMALLINT,
     Comentario VARCHAR(255),
 
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
 
     ConductorId BIGINT,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS Viaje (
 CREATE TABLE IF NOT EXISTS TipoUbicacion (
     Id BIGINT,
 
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     -- 'Historico', 'Trabajo', 'Casa'
     Nombre VARCHAR(10) COMMENT '''Historico'', ''Trabajo'', ''Casa''',
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS Vehiculo (
     Modelo    VARCHAR(50) NOT NULL,
     Estado    VARCHAR(20),
   
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     Baja      DATETIME,
     PRIMARY KEY (Id)
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     Genero VARCHAR(10),
     Estado VARCHAR(10),
     
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     Baja      DATETIME,
     PRIMARY KEY (Id)
@@ -118,10 +118,10 @@ CREATE TABLE IF NOT EXISTS Usuario (
 CREATE TABLE IF NOT EXISTS Ubicacion (
     Id BIGINT NOT NULL,
     TipoAvenida VARCHAR(10),
-    Nombre VARCHAR(10),
+    Nombre VARCHAR(50),
     Numero VARCHAR(10),
 
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     PRIMARY KEY (Id)
 ) COMMENT='Tabla de Ubicacion del sistema';
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS Conductor (
     Estado VARCHAR(20),
     FechaDeCaducidadPermiso DATETIME,
     
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     Baja      DATETIME,
     
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS Telemetria (
     UltimaVezConnectado DATETIME,
     NumeroViajes SMALLINT DEFAULT 0,
   
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
 
     UsuarioId BIGINT UNIQUE,
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS Transacciones (
     Cantidad DOUBLE,
     Momento DATETIME,
   
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     
     CuentaId BIGINT,
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS Oferta (
     Precio DOUBLE,
     Descuento DOUBLE,
  
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     Baja      DATETIME,
 
@@ -226,12 +226,12 @@ CREATE TABLE IF NOT EXISTS Oferta (
 
 CREATE TABLE IF NOT EXISTS Compania (
     Id BIGINT NOT NULL,
-    Nombre BIGINT,
+    Nombre VARCHAR(50),
     Logo VARCHAR(50),
     Email VARCHAR(50),
     Numero VARCHAR(20),
 
-    Alta      DATETIME    NOT NULL,
+    Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
     Baja      DATETIME,
 
