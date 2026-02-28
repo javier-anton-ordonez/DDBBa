@@ -73,7 +73,8 @@ CREATE TABLE IF NOT EXISTS TipoUbicacion (
     Alta      DATETIME    NOT NULL,
     Editado   DATETIME,
     -- 'Historico', 'Trabajo', 'Casa'
-    Nombre VARCHAR(10) COMMENT '''Historico'', ''Trabajo'', ''Casa'''
+    Nombre VARCHAR(10) COMMENT '''Historico'', ''Trabajo'', ''Casa''',
+    PRIMARY KEY (Id)
 );
 
 
@@ -132,8 +133,9 @@ CREATE TABLE IF NOT EXISTS UsuarioUbicacion (
     UbicacionId BIGINT,
     
     UltimaVezUsada DATETIME,
-    VecesUsada INT NOT NULL AUTO_INCREMENT,
+    VecesUsada INT NOT NULL DEFAULT 0,
     TipoId BIGINT,
+    PRIMARY KEY (UsuarioId, UbicacionId)
 );
 
 

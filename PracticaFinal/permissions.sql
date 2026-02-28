@@ -96,8 +96,28 @@ REVOKE UPDATE ON Cabify.Transacciones TO 'Rol_Desarrollo';
 -- Views
 
 -- Vistas para el dashboard
+CREATE VIEW v_usuario_dashboard AS                                                                                                          │
+SELECT id, Name, Apellido, Genero                                                                                                           │
+FROM Usuario; 
 
-CREATE VIEW v_usuario_dashboard AS
-SELECT id, Name, Apellido, Genero
-FROM Usuario;
+-- USUARIOS DE INFRAESTRUCTURA (NECESARIOS PARA LA ARQUITECTURA 4 NODOS)
+
+-- 1. Usuario de Replicación (Vital para sincronizar los nodos)
+CREATE USER IF NOT EXISTS 'replicator_user'@'%' IDENTIFIED BY 'replicator_password';
+GRANT REPLICATION SLAVE ON *.* TO 'replicator_user'@'%';
+
+-- 2. Usuarios definidos en docker-compose.yaml
+-- Usuario para Escritura (Nodos Maestros)
+CREATE USER IF NOT EXISTS 'app_user'@'%' IDENTIFIED BY 'app_password';
+GRANT INSERT, UPDATE, DELETE, SELECT ON ride_hailing_db.* TO 'app_user'@'%';
+
+-- Usuario para Lectura App (Nodo db-read-app)
+CREATE USER IF NOT EXISTS 'app_reader'@'%' IDENTIFIED BY 'reader_password';
+GRANT SELECT ON ride_hailing_db.* TO 'app_reader'@'%';
+
+-- Usuario para Dashboard (Nodo db-read-dashboard)
+CREATE USER IF NOT EXISTS 'dashboard_user'@'%' IDENTIFIED BY 'dashboard_password';
+GRANT SELECT ON ride_hailing_db.* TO 'dashboard_user'@'%';
+
+FLUSH PRIVILEGES;
 
