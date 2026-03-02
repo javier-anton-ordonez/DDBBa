@@ -23,7 +23,7 @@ INSERT INTO `TipoUbicacion` (`Id`, `Nombre`) VALUES
 -- ============================================
 -- USUARIOS (100 usuarios)
 -- ============================================
-INSERT INTO `Usuario` (`id`, `Name`, `Apellido`, `Email`, `Numero`, `Genero`) VALUES
+INSERT INTO `Usuario` (`id`, `Nombre`, `Apellido`, `Email`, `Numero`, `Genero`) VALUES
 (1, 'Carlos', 'García Martínez', 'carlos.garcia@email.com', '+34600111001', 'Masculino'),
 (2, 'María', 'López Sánchez', 'maria.lopez@email.com', '+34600111002', 'Femenino'),
 (3, 'Juan', 'Martínez Pérez', 'juan.martinez@email.com', '+34600111003', 'Masculino'),
@@ -342,7 +342,7 @@ START TRANSACTION;
 -- ============================================
 -- VEHÍCULOS (20 vehículos: 10 activos, 10 dados de baja)
 -- ============================================
-INSERT INTO `Vehiculo` (`id`, `Matricula`, `Plazas`, `Marca`, `Modelo`, `Alta`, `Estado`, `Update`, `Baja`) VALUES
+INSERT INTO `Vehiculo` (`id`, `Matricula`, `Plazas`, `Marca`, `Modelo`, `Alta`, `Estado`, `Editado`, `Baja`) VALUES
 (1, '1234ABC', 4, 'Toyota', 'Prius', '2024-01-15 10:00:00', 'Activo', '2025-09-01 12:00:00', NULL),
 (2, '5678DEF', 4, 'Seat', 'Leon', '2023-06-20 09:30:00', 'Activo', '2025-10-15 14:30:00', NULL),
 (3, '9012GHI', 5, 'Volkswagen', 'Passat', '2024-03-10 11:15:00', 'Activo', '2025-11-20 16:00:00', NULL),
@@ -399,7 +399,7 @@ INSERT INTO `Conductor` (`id`, `VehiculoID`, `CarnetDeConducir`, `Documentacion`
 -- ============================================
 -- UBICACIONES (50 ubicaciones en Madrid)
 -- ============================================
-INSERT INTO `Ubicacion` (`id`, `TipoAvenida`, `Nombre`, `Numero`, `Anadido`) VALUES
+INSERT INTO `Ubicacion` (`id`, `TipoAvenida`, `Nombre`, `Numero`, `Alta`) VALUES
 (1, 'Calle', 'Gran Vía', '28', '2025-09-01 10:00:00'),
 (2, 'Avenida', 'Castellana', '45', '2025-09-01 10:15:00'),
 (3, 'Plaza', 'Mayor', '1', '2025-09-01 10:30:00'),
@@ -2177,7 +2177,7 @@ INSERT INTO `UsuarioUbicacion` (`UsuarioId`, `UbicacionID`, `UltimaVezUsada`, `V
 -- POSICIONES DE CONDUCTORES (últimas posiciones de conductores activos)
 -- Se generan varias posiciones para conductores en servicio
 -- ============================================
-INSERT INTO `Posicion` (`id`, `Latitud`, `Longitud`, `Hora`, `DriverID`) VALUES
+INSERT INTO `Posicion` (`id`, `Latitud`, `Longitud`, `Hora`, `ConductorId`) VALUES
 (1, '40.4168', '-3.7038', '2026-02-17 15:30:00', 1),
 (2, '40.4200', '-3.7050', '2026-02-17 15:35:00', 1),
 (3, '40.4220', '-3.7065', '2026-02-17 15:40:00', 1),
@@ -2213,6 +2213,70 @@ INSERT INTO `Posicion` (`id`, `Latitud`, `Longitud`, `Hora`, `DriverID`) VALUES
 (33, '40.4070', '-3.7170', '2026-02-17 17:45:00', 24),
 (34, '40.4450', '-3.6750', '2026-02-17 12:40:00', 25),
 (35, '40.4470', '-3.6770', '2026-02-17 12:45:00', 25);
+
+COMMIT;
+
+START TRANSACTION;
+
+-- ============================================
+-- PERMISOS
+-- ============================================
+INSERT INTO `Permisos` (`Id`, `Nombre`, `Alta`, `Editado`) VALUES
+(1, 'VerDashboard', NOW(), NULL),
+(2, 'EditarUsuarios', NOW(), NULL),
+(3, 'VerViajes', NOW(), NULL),
+(4, 'Conducir', NOW(), NULL),
+(5, 'PedirViaje', NOW(), NULL);
+
+-- ============================================
+-- ROLES
+-- ============================================
+INSERT INTO `Roles` (`Id`, `Nombre`, `Alta`, `Editado`) VALUES
+(1, 'Admin', NOW(), NULL),
+(2, 'Conductor', NOW(), NULL),
+(3, 'Cliente', NOW(), NULL);
+
+-- ============================================
+-- ROLES-PERMISOS
+-- ============================================
+INSERT INTO `RolesPermisos` (`RolId`, `PermisosId`) VALUES
+(1, 1), -- Admin: VerDashboard
+(1, 2), -- Admin: EditarUsuarios
+(1, 3), -- Admin: VerViajes
+(2, 3), -- Conductor: VerViajes
+(2, 4), -- Conductor: Conducir
+(3, 3), -- Cliente: VerViajes
+(3, 5); -- Cliente: PedirViaje
+
+-- ============================================
+-- ROLES-USUARIO
+-- ============================================
+-- Usuario 1 es Admin, Conductor y Cliente
+INSERT INTO `RolesUsuario` (`RolId`, `UsuarioId`) VALUES
+(1, 1),
+(2, 1),
+(3, 1);
+
+-- Usuarios Conductores (Impares del 3 al 49)
+INSERT INTO `RolesUsuario` (`RolId`, `UsuarioId`) VALUES
+(2, 3), (2, 5), (2, 7), (2, 9), (2, 11),
+(2, 13), (2, 15), (2, 17), (2, 19), (2, 21),
+(2, 23), (2, 25), (2, 27), (2, 29), (2, 31),
+(2, 33), (2, 35), (2, 37), (2, 39), (2, 41),
+(2, 43), (2, 45), (2, 47), (2, 49);
+
+-- Todos los usuarios son Clientes (1-100)
+INSERT INTO `RolesUsuario` (`RolId`, `UsuarioId`) VALUES
+(3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10),
+(3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3, 16), (3, 17), (3, 18), (3, 19), (3, 20),
+(3, 21), (3, 22), (3, 23), (3, 24), (3, 25), (3, 26), (3, 27), (3, 28), (3, 29), (3, 30),
+(3, 31), (3, 32), (3, 33), (3, 34), (3, 35), (3, 36), (3, 37), (3, 38), (3, 39), (3, 40),
+(3, 41), (3, 42), (3, 43), (3, 44), (3, 45), (3, 46), (3, 47), (3, 48), (3, 49), (3, 50),
+(3, 51), (3, 52), (3, 53), (3, 54), (3, 55), (3, 56), (3, 57), (3, 58), (3, 59), (3, 60),
+(3, 61), (3, 62), (3, 63), (3, 64), (3, 65), (3, 66), (3, 67), (3, 68), (3, 69), (3, 70),
+(3, 71), (3, 72), (3, 73), (3, 74), (3, 75), (3, 76), (3, 77), (3, 78), (3, 79), (3, 80),
+(3, 81), (3, 82), (3, 83), (3, 84), (3, 85), (3, 86), (3, 87), (3, 88), (3, 89), (3, 90),
+(3, 91), (3, 92), (3, 93), (3, 94), (3, 95), (3, 96), (3, 97), (3, 98), (3, 99), (3, 100);
 
 COMMIT;
 

@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # NODO 1: MAESTRO PRINCIPAL (Escritura A)
+  # ==========================================
+  db-master-1:
+    image: mysql:8.0
+    container_name: ride-db-master-1
+    # ID 1. IDs impares (1, 3, 5...) para evitar colisiones en auto-increment
+    command: --default-authentication-plugin=mysql_native_password --server-id=1 --log-bin=mysql-bin --binlog-format=ROW --auto-increment-increment=2 --auto-increment-offset=1 --gtid-mode=ON --enforce-gtid-consistency=ON
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ride_hailing_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data_master1:/var/lib/mysql
+      # Carga de scripts iniciales (Schema y Datos) solo en el maestro 1
+      - ./schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./data.sql:/docker-entrypoint-initdb.d/02_data.sql
+      - ./permissions.sql:/docker-entrypoint-initdb.d/03_permissions.sql
+    networks:
+      - ride-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # ==========================================
+  # NODO 2: MAESTRO SECUNDARIO (Escritura B - Redundancia)
+  # ==========================================
+  db-master-2:
+    image: mysql:8.0
+    container_name: ride-db-master-2
+    # ID 2. IDs pares (2, 4, 6...) para evitar colisiones en auto-increment
+    command: --default-authentication-plugin=mysql_native_password --server-id=2 --log-bin=mysql-bin --binlog-format=ROW --auto-increment-increment=2 --auto-increment-offset=2 --gtid-mode=ON --enforce-gtid-consistency=ON
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data_master2:/var/lib/mysql
+      # SIN scripts de inicio. Recibe todo por replicación.
+    networks:
+      - ride-network
+    depends_on:
+      - db-master-1
+
+  # ==========================================
+  # NODO 3: LECTURA APP (Read Replica - Escalabilidad)
+  # ==========================================
+  db-read-app:
+    image: mysql:8.0
+    container_name: ride-db-read-app
+    # ID 3. Solo lectura.
+    command: --default-authentication-plugin=mysql_native_password --server-id=3 --relay-log=mysql-relay-bin --read_only=1 --gtid-mode=ON --enforce-gtid-consistency=ON
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
+    ports:
+      - "3308:3306"
+    volumes:
+      - db_data_read_app:/var/lib/mysql
+      # SIN scripts de inicio. Recibe todo por replicación.
+    networks:
+      - ride-network
+    depends_on:
+      - db-master-1
+
+  # ==========================================
+  # NODO 4: LECTURA DASHBOARD & BACKUPS (Aislamiento)
+  # ==========================================
+  db-read-dashboard:
+    image: mysql:8.0
+    container_name: ride-db-read-dashboard
+    # ID 4. Solo lectura.
+    command: --default-authentication-plugin=mysql_native_password --server-id=4 --relay-log=mysql-relay-bin --read_only=1 --gtid-mode=ON --enforce-gtid-consistency=ON
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
+    ports:
+      - "3309:3306"
+    volumes:
+      - db_data_read_dashboard:/var/lib/mysql
+      - ./backup.sql:/backups/backup_plan.sql # Plan visible dentro del contenedor
+      - ./backups:/backups # Carpeta persistente para los dumps
+      # SIN scripts de inicio. Recibe todo por replicación.
+    networks:
+      - ride-network
+    depends_on:
+      - db-master-1
+
+  # ==========================================
+  # HERRAMIENTA DE GESTIÓN VISUAL
+  # ==========================================
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ride-phpmyadmin
+    environment:
+      # Conexión a los 4 nodos
+      PMA_HOSTS: db-master-1,db-master-2,db-read-app,db-read-dashboard
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    ports:
+      - "8080:80"
+    networks:
+      - ride-network
+    depends_on:
+      - db-master-1
+
+volumes:
+  db_data_master1:
+  db_data_master2:
+  db_data_read_app:
+  db_data_read_dashboard:
+
+networks:
+  ride-network:
+    driver: bridge
