@@ -39,17 +39,12 @@ services:
     command: --default-authentication-plugin=mysql_native_password --server-id=2 --log-bin=mysql-bin --binlog-format=ROW --auto-increment-increment=2 --auto-increment-offset=2 --gtid-mode=ON --enforce-gtid-consistency=ON
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: ride_hailing_db
-      MYSQL_USER: app_user
-      MYSQL_PASSWORD: app_password
+      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
     ports:
       - "3307:3306"
     volumes:
       - db_data_master2:/var/lib/mysql
-      # Cargamos datos en todos los nodos para disponibilidad inmediata en la práctica
-      - ./schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
-      - ./data.sql:/docker-entrypoint-initdb.d/02_data.sql
-      - ./permissions.sql:/docker-entrypoint-initdb.d/03_permissions.sql
+      # SIN scripts de inicio. Recibe todo por replicación.
     networks:
       - ride-network
     depends_on:
@@ -65,17 +60,12 @@ services:
     command: --default-authentication-plugin=mysql_native_password --server-id=3 --relay-log=mysql-relay-bin --read_only=1 --gtid-mode=ON --enforce-gtid-consistency=ON
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: ride_hailing_db
-      MYSQL_USER: app_reader
-      MYSQL_PASSWORD: reader_password
+      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
     ports:
       - "3308:3306"
     volumes:
       - db_data_read_app:/var/lib/mysql
-      # Cargamos datos en todos los nodos para disponibilidad inmediata en la práctica
-      - ./schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
-      - ./data.sql:/docker-entrypoint-initdb.d/02_data.sql
-      - ./permissions.sql:/docker-entrypoint-initdb.d/03_permissions.sql
+      # SIN scripts de inicio. Recibe todo por replicación.
     networks:
       - ride-network
     depends_on:
@@ -91,19 +81,14 @@ services:
     command: --default-authentication-plugin=mysql_native_password --server-id=4 --relay-log=mysql-relay-bin --read_only=1 --gtid-mode=ON --enforce-gtid-consistency=ON
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: ride_hailing_db
-      MYSQL_USER: dashboard_user
-      MYSQL_PASSWORD: dashboard_password
+      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
     ports:
       - "3309:3306"
     volumes:
       - db_data_read_dashboard:/var/lib/mysql
       - ./backup.sql:/backups/backup_plan.sql # Plan visible dentro del contenedor
       - ./backups:/backups # Carpeta persistente para los dumps
-      # Cargamos datos en todos los nodos para disponibilidad inmediata en la práctica
-      - ./schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
-      - ./data.sql:/docker-entrypoint-initdb.d/02_data.sql
-      - ./permissions.sql:/docker-entrypoint-initdb.d/03_permissions.sql
+      # SIN scripts de inicio. Recibe todo por replicación.
     networks:
       - ride-network
     depends_on:
