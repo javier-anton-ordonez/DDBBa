@@ -1,34 +1,30 @@
 #!/bin/bash
-# backup_mysql.sh
+# Backup COMPLETO - Prioridad MUY ALTA
+# Tablas: Transacciones, Viaje
+# Frecuencia: 1 vez al día (diario a las 3:00 AM)
 
 FECHA=$(date +%Y%m%d_%H%M%S)
-BACKUP_DIR="/backups/mysql"
+BACKUP_DIR="/home/javier/Documentos/DDBBa/PracticaFinal/backups/muy_alta"
+CONTAINER_NAME="ride-db-master-1"
+DB_NAME="ride_hailing_db"
 RETENTION_DAYS=7
 
-docker exec mysql8 mysqldump \
-  -uroot -prootpass \
-  --single-transaction \
-  Transacciones Viaje \
-  >backup_tablas_$(date +%Y%m%d).sql
+mkdir -p ${BACKUP_DIR}
 
-# Verificar que se creó
+docker exec ${CONTAINER_NAME} mysqldump \
+  -uroot -prootpassword \
+  --single-transaction \
+  --flush-logs \
+  --master-data=2 \
+  ${DB_NAME} Transacciones Viaje \
+  >"${BACKUP_DIR}/full_MA_${FECHA}.sql"
+
 if [ $? -eq 0 ]; then
-  echo "Backup creado: backup_${FECHA}.sql"
+  echo "Backup completo creado: full_MA_${FECHA}.sql"
 else
   echo "ERROR: Backup falló" >&2
   exit 1
 fi
 
-# Borrar backups antiguos
-find ${BACKUP_DIR} -name "backup_*.sql" -mtime +${RETENTION_DAYS} -delete
-echo "Backups con más de ${RETENTION_DAYS} días eliminados"
-
-#
-## Crear backup
-# docker exec mysql8 mysqldump \
-#   -uroot -prootpassword \
-#   --all-databases \
-#   --single-transaction \
-#   --routines --triggers --events \
-#   --set-gtid-purged=OFF |
-#   gzip >"${BACKUP_DIR}/backup_${FECHA}.sql.gz"
+find ${BACKUP_DIR} -name "full_MA_*.sql" -mtime +${RETENTION_DAYS} -delete
+echo "Limpieza completada (>${RETENTION_DAYS} días)"

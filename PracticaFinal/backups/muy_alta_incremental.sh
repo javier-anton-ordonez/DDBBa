@@ -1,0 +1,42 @@
+#!/bin/bash
+# Backup INCREMENTAL con binlog - Prioridad MUY ALTA
+# Tablas: Transacciones, Viaje
+# Frecuencia: 1 vez cada hora
+
+FECHA=$(date +%Y%m%d_%H%M%S)
+BACKUP_DIR="/home/javier/Documentos/DDBBa/PracticaFinal/backups/muy_alta"
+BINLOG_DIR="${BACKUP_DIR}/binlogs"
+CONTAINER_NAME="ride-db-master-1"
+DB_NAME="ride_hailing_db"
+RETENTION_DAYS=7
+
+mkdir -p ${BINLOG_DIR}
+
+BINLOG_FILE=$(docker exec ${CONTAINER_NAME} mysql -uroot -prootpassword -e "SHOW MASTER STATUS\G" | grep "File:" | awk '{print $2}')
+BINLOG_POS=$(docker exec ${CONTAINER_NAME} mysql -uroot -prootpassword -e "SHOW MASTER STATUS\G" | grep "Position:" | awk '{print $2}')
+
+echo "[1/2] Binlog actual: ${BINLOG_FILE} posición ${BINLOG_POS}"
+
+docker exec ${CONTAINER_NAME} mysqlbinlog \
+  --database=${DB_NAME} \
+  --base64-output=DECODE-ROWS \
+  --verbose \
+  /var/lib/mysql/${BINLOG_FILE} |
+  grep -E "(Transacciones|Viaje|^###|^#[0-9]{6}|^BINLOG|^BEGIN|^COMMIT|^SET)" \
+    >"${BINLOG_DIR}/inc_MA_${FECHA}.sql" 2>/dev/null
+
+if [ $? -eq 0 ]; then
+  echo "[2/2] Backup incremental creado: inc_MA_${FECHA}.sql"
+
+  echo "BINLOG_FILE=${BINLOG_FILE}" >"${BINLOG_DIR}/inc_MA_${FECHA}.info"
+  echo "BINLOG_POS=${BINLOG_POS}" >>"${BINLOG_DIR}/inc_MA_${FECHA}.info"
+  echo "BACKUP_DATE=${FECHA}" >>"${BINLOG_DIR}/inc_MA_${FECHA}.info"
+  echo "TABLES=Transacciones,Viaje" >>"${BINLOG_DIR}/inc_MA_${FECHA}.info"
+else
+  echo "Advertencia: No se pudieron extraer cambios del binlog"
+fi
+
+find ${BINLOG_DIR} -name "inc_MA_*.sql" -mtime +${RETENTION_DAYS} -delete
+find ${BINLOG_DIR} -name "inc_MA_*.info" -mtime +${RETENTION_DAYS} -delete
+
+echo "Backup incremental completado"

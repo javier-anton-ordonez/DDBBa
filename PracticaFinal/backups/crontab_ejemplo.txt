@@ -1,0 +1,64 @@
+# =============================================================================
+# CRONTAB - Sistema de Backups por Prioridad
+# =============================================================================
+# Para instalar: crontab -e (y pega este contenido)
+# Para ver: crontab -l
+# Para editar: crontab -e
+#
+# Formato: minuto hora día_mes mes día_semana comando
+# =============================================================================
+
+# ============================================
+# BACKUPS COMPLETOS (con mysqldump)
+# ============================================
+
+# MUY ALTA PRIORIDAD - Diario a las 3:00 AM
+# Tablas: Transacciones, Viaje
+0 3 * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/muy_alta_prioridad.sh >> /var/log/backup_ma_full.log 2>&1
+
+# ALTA PRIORIDAD - Lunes (1) y Jueves (4) a las 3:00 AM
+# Tablas: Oferta
+0 3 * * 1,4 /home/javier/Documentos/DDBBa/PracticaFinal/backups/alta_prioridad.sh >> /var/log/backup_a_full.log 2>&1
+
+# MEDIA PRIORIDAD - Domingos (0) a las 3:00 AM
+# Tablas: Conductor, Usuario, Informacion_Bancaria, Telemetria
+0 3 * * 0 /home/javier/Documentos/DDBBa/PracticaFinal/backups/media_prioridad.sh >> /var/log/backup_m_full.log 2>&1
+
+# BAJA PRIORIDAD - Día 1 de cada mes a las 3:00 AM
+# Tablas: Vehiculo, Compania, Ubicacion, Roles, Permisos
+0 3 1 * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/baja_prioridad.sh >> /var/log/backup_b_full.log 2>&1
+
+# ============================================
+# BACKUPS INCREMENTALES (con binlog)
+# ============================================
+
+# MUY ALTA PRIORIDAD - Cada hora
+# Tablas: Transacciones, Viaje
+0 * * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/muy_alta_incremental.sh >> /var/log/backup_ma_inc.log 2>&1
+
+# ALTA PRIORIDAD - Cada 12 horas (00:00 y 12:00)
+# Tablas: Oferta
+0 0,12 * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/alta_incremental.sh >> /var/log/backup_a_inc.log 2>&1
+
+# MEDIA PRIORIDAD - Diario a las 23:00
+# Tablas: Conductor, Usuario, Informacion_Bancaria, Telemetria
+0 23 * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/media_incremental.sh >> /var/log/backup_m_inc.log 2>&1
+
+# BAJA PRIORIDAD - Diario a las 23:30
+# Tablas: Vehiculo, Compania, Ubicacion, Roles, Permisos
+30 23 * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/baja_incremental.sh >> /var/log/backup_b_inc.log 2>&1
+
+# ============================================
+# LIMPIEZA DE LOGS (Opcional)
+# ============================================
+# Limpiar logs de backup antiguos cada domingo a las 4:00 AM
+# 0 4 * * 0 find /var/log/backup_*.log -mtime +30 -delete
+
+# =============================================================================
+# NOTAS IMPORTANTES:
+# =============================================================================
+# 1. Asegúrate de que Docker esté corriendo antes de ejecutar los backups
+# 2. Los logs se guardan en /var/log/backup_*.log
+# 3. Puedes verificar que cron está funcionando con: tail -f /var/log/syslog | grep CRON
+# 4. Para probar un script manualmente: cd backups && ./muy_alta_prioridad.sh
+# =============================================================================
