@@ -48,6 +48,6 @@ Al final, el día de la defensa, se debe presentar el proyecto, explicando el di
 - ~~`backup.sql`: plan de backup y recuperación.~~
 - ~~`permissions.sql`: permisos para la seguridad del sistema.~~
 - ~~`compose.yml`: despliegue de la base de datos y el dashboard.~~
-- `README.md`: instrucciones para arrancar la base de datos y el dashboard, y cargar datos de prueba.
+- ~~`README.md`: instrucciones para arrancar la base de datos y el dashboard, y cargar datos de prueba.~~
 - `DESIGN.md`: explica el diseño de la base de datos, las tablas, índices, etc. Usar Markdown y Mermaid (sobre todo para el MER).
 - `presentacion.pdf`: presentación del proyecto, usar un PowerPoint o similar para el día de la defensa. Indicar los integrantes del equipo y la aportación de cada uno.
