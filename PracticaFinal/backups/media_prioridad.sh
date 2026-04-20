@@ -4,7 +4,7 @@
 # Frecuencia: 1 vez a la semana (domingos a las 3:00 AM)
 
 FECHA=$(date +%Y%m%d_%H%M%S)
-BACKUP_DIR="/home/javier/Documentos/DDBBa/PracticaFinal/backups/media"
+BACKUP_DIR="~/backups/media"
 CONTAINER_NAME="ride-db-master-1"
 DB_NAME="ride_hailing_db"
 RETENTION_DAYS=21

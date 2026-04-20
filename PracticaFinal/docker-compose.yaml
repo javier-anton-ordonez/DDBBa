@@ -1,11 +1,11 @@
 services:
   # ==========================================
-  # NODO 1: MAESTRO PRINCIPAL (Escritura A)
+  # NODO 1: MAESTRO PRINCIPAL
   # ==========================================
   db-master-1:
     image: mysql:8.0
     container_name: ride-db-master-1
-    # ID 1. IDs impares (1, 3, 5...) para evitar colisiones en auto-increment
+    # ID 1.
     command: --default-authentication-plugin=mysql_native_password --server-id=1 --log-bin=mysql-bin --binlog-format=ROW --auto-increment-increment=2 --auto-increment-offset=1 --gtid-mode=ON --enforce-gtid-consistency=ON
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -28,28 +28,26 @@ services:
       retries: 10
 
   # ==========================================
-  # NODO 2: MAESTRO SECUNDARIO (Escritura B - Redundancia)
+  # NODO 2: MAESTRO SECUNDARIO
   # ==========================================
   db-master-2:
     image: mysql:8.0
     container_name: ride-db-master-2
-    # ID 2. IDs pares (2, 4, 6...) para evitar colisiones en auto-increment
+    # ID 2.
     command: --default-authentication-plugin=mysql_native_password --server-id=2 --log-bin=mysql-bin --binlog-format=ROW --auto-increment-increment=2 --auto-increment-offset=2 --gtid-mode=ON --enforce-gtid-consistency=ON
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
     ports:
       - "3307:3306"
     volumes:
       - db_data_master2:/var/lib/mysql
-      # SIN scripts de inicio. Recibe todo por replicación.
     networks:
       - ride-network
     depends_on:
       - db-master-1
 
   # ==========================================
-  # NODO 3: LECTURA APP (Read Replica - Escalabilidad)
+  # NODO 3: LECTURA APP
   # ==========================================
   db-read-app:
     image: mysql:8.0
@@ -58,19 +56,17 @@ services:
     command: --default-authentication-plugin=mysql_native_password --server-id=3 --relay-log=mysql-relay-bin --read_only=1 --gtid-mode=ON --enforce-gtid-consistency=ON
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
     ports:
       - "3308:3306"
     volumes:
       - db_data_read_app:/var/lib/mysql
-      # SIN scripts de inicio. Recibe todo por replicación.
     networks:
       - ride-network
     depends_on:
       - db-master-1
 
   # ==========================================
-  # NODO 4: LECTURA DASHBOARD & BACKUPS (Aislamiento)
+  # NODO 4: LECTURA DASHBOARD & BACKUPS
   # ==========================================
   db-read-dashboard:
     image: mysql:8.0
@@ -79,13 +75,11 @@ services:
     command: --default-authentication-plugin=mysql_native_password --server-id=4 --relay-log=mysql-relay-bin --read_only=1 --gtid-mode=ON --enforce-gtid-consistency=ON
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      # Variables eliminadas para evitar conflicto 'User already exists' durante la replicación
     ports:
       - "3309:3306"
     volumes:
       - db_data_read_dashboard:/var/lib/mysql
-      - ./backups:/backups # Carpeta persistente para los dumps
-      # SIN scripts de inicio. Recibe todo por replicación.
+      - ./backups:/backups
     networks:
       - ride-network
     depends_on:

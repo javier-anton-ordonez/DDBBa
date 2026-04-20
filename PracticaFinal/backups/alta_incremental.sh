@@ -4,7 +4,7 @@
 # Frecuencia: 1 vez cada 12 horas
 
 FECHA=$(date +%Y%m%d_%H%M%S)
-BACKUP_DIR="/home/javier/Documentos/DDBBa/PracticaFinal/backups/alta"
+BACKUP_DIR="~/backups/alta"
 BINLOG_DIR="${BACKUP_DIR}/binlogs"
 CONTAINER_NAME="ride-db-master-1"
 DB_NAME="ride_hailing_db"
