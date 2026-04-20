@@ -339,17 +339,56 @@ erDiagram
 ## Relaciones. (Guille)
 
 ### Vehículo-Conductor
-### Conductor-Compañía
+   Un conductor puede tener asignado un vehículo. Si el vehículo se elimina, el campo VehiculoId del conductor se establece a NULL.
+   Campos relacionados:
+   - VehiculoId: Foreign Key en la tabla Conductor que referencia a Vehiculo(Id).
+### Conductor-Compañía 
+   Un conductor puede pertenecer a una compañía. Una compañía puede tener múltiples conductores asociados.
+   Campos relacionados:
+   - EmpresaId: Foreign Key en la tabla Conductor que referencia a Compania(Id).
 ### Conductor-Ubicación
+   Un conductor puede tener múltiples registros de posición. Si se elimina el conductor, también se eliminan sus posiciones.
+   Campos relacionados:
+   - ConductorId: Foreign Key en la tabla Posicion que referencia a Conductor(Id).
 ### Conductor-Viaje
+   Un conductor puede realizar múltiples viajes. No se permite eliminar un conductor si tiene viajes asociados.
+   Campos relacionados:
+   - ConductorId: Foreign Key en la tabla Viaje que referencia a Conductor(Id).
 ### Transacciones-Viaje
+   Cada transacción está asociada a un viaje. No se puede eliminar un viaje si tiene transacciones.
+   Campos relacionados:
+   - ViajeId: Foreign Key en la tabla Transacciones que referencia a Viaje(Id).
 ### Oferta-Viaje
+   Cada viaje proviene de una oferta. No se puede eliminar una oferta si está asociada a un viaje.
+   Campos relacionados:
+   - OfertaId: Foreign Key en la tabla Viaje que referencia a Oferta(Id).
 ### Ubicaciones-Oferta
+   Cada oferta tiene una ubicación de origen y una de destino. No se puede eliminar una ubicación si está siendo utilizada.
+   Campos relacionados:
+   - OrigenId: Foreign Key en la tabla Oferta → Ubicacion(Id)
+   - DestinoId: Foreign Key en la tabla Oferta → Ubicacion(Id)
 ### Usuario-Oferta
+   Un usuario puede crear múltiples ofertas. No se puede eliminar un usuario si tiene ofertas.
+   Campos relacionados:
+   - UsuarioId: Foreign Key en la tabla Oferta que referencia a Usuario(Id).
 ### Usuario-Telemetría
+   Cada usuario tiene un único registro de telemetría. Si el usuario se elimina, su telemetría también.
+   Campos relacionados:
+   - UsuarioId: Foreign Key en la tabla Telemetria (único) → Usuario(Id).
 ### Usuario-Información-bancaria
+   Un usuario puede tener varias cuentas bancarias. Si el usuario se elimina, sus cuentas también.
+   Campos relacionados:
+   - UsuarioId: Foreign Key en la tabla Informacion_Bancaria → Usuario(Id).
 ### Usuario-Roles
+   Un usuario puede tener múltiples roles. Si se elimina un usuario, se eliminan sus roles asociados. No se puede eliminar un rol si está en uso.
+   Campos relacionados:
+   - UsuarioId: Foreign Key en RolesUsuario → Usuario(Id)
+   - RolId: Foreign Key en RolesUsuario → Roles(Id)
 ### Roles-Permisos
+   Un rol tiene varios permisos. No se pueden eliminar roles ni permisos si están siendo utilizados.
+   Campos relacionados:
+   - RolId: Foreign Key en RolesPermisos → Roles(Id)
+   - PermisosId: Foreign Key en RolesPermisos → Permisos(Id)
 
 
 
