@@ -28,29 +28,29 @@ Y añade las siguientes líneas:
 # BACKUPS COMPLETOS
 
 # MUY ALTA - Diario a las 3:00 AM
-0 3 * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/muy_alta_prioridad.sh >> /var/log/backup_ma_full.log 2>&1
+0 3 * * * ~/backups/muy_alta_prioridad.sh >> /var/log/backup_ma_full.log 2>&1
 
 # ALTA - Lunes y Jueves a las 3:00 AM
-0 3 * * 1,4 /home/javier/Documentos/DDBBa/PracticaFinal/backups/alta_prioridad.sh >> /var/log/backup_a_full.log 2>&1
+0 3 * * 1,4 ~/backups/alta_prioridad.sh >> /var/log/backup_a_full.log 2>&1
 
 # MEDIA - Domingos a las 3:00 AM
-0 3 * * 0 /home/javier/Documentos/DDBBa/PracticaFinal/backups/media_prioridad.sh >> /var/log/backup_m_full.log 2>&1
+0 3 * * 0 ~/backups/media_prioridad.sh >> /var/log/backup_m_full.log 2>&1
 
 # BAJA - Día 1 de cada mes a las 3:00 AM
-0 3 1 * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/baja_prioridad.sh >> /var/log/backup_b_full.log 2>&1
+0 3 1 * * ~/backups/baja_prioridad.sh >> /var/log/backup_b_full.log 2>&1
 
 # BACKUPS INCREMENTALES (BINLOG)
 
 # MUY ALTA - Cada hora
-0 * * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/muy_alta_incremental.sh >> /var/log/backup_ma_inc.log 2>&1
+*/30 * * * * ~/backups/muy_alta_incremental.sh >> /var/log/backup_ma_inc.log 2>&1
 
 # ALTA - Cada 12 horas (00:00 y 12:00)
-0 0,12 * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/alta_incremental.sh >> /var/log/backup_a_inc.log 2>&1
+0 0,12 * * * ~/backups/alta_incremental.sh >> /var/log/backup_a_inc.log 2>&1
 
 # MEDIA - Diario a las 23:00
-0 23 * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/media_incremental.sh >> /var/log/backup_m_inc.log 2>&1
+0 23 * * * ~/backups/media_incremental.sh >> /var/log/backup_m_inc.log 2>&1
 
 # BAJA - Diario a las 23:30
-30 23 * * * /home/javier/Documentos/DDBBa/PracticaFinal/backups/baja_incremental.sh >> /var/log/backup_b_inc.log 2>&1
+30 23 * * * ~/backups/baja_incremental.sh >> /var/log/backup_b_inc.log 2>&1
 ```
 

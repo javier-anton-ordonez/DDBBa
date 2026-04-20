@@ -2,7 +2,7 @@
 # Script de restauración PITR (Point-in-Time Recovery)
 # Restaura backup completo + cambios del binlog hasta un momento específico
 
-BACKUP_DIR="./backups"
+BACKUP_DIR="~/backups"
 BINLOG_DIR="${BACKUP_DIR}/binlogs"
 CONTAINER_NAME="ride-db-master-1"
 

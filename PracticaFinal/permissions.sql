@@ -3,7 +3,7 @@
 
 -- Acceso de las aplicaciones 
 CREATE USER 'AppGeneral'@'%' IDENTIFIED BY 'AppGeneralContraseña';
-CREATE USER 'AppDiver'@'%' IDENTIFIED BY 'AppDiverContraseña';
+CREATE USER 'AppDriver'@'%' IDENTIFIED BY 'AppDiverContraseña';
 
 -- Acceso de los servicios programados por la empresa
 CREATE USER 'Admin'@'127.0.0.1' IDENTIFIED BY 'AdminContraseña';
@@ -40,13 +40,16 @@ GRANT 'Rol_BackGroundJob' TO 'BackGroundJob'@'127.0.0.1';
 
 GRANT 'Rol_Analiticas' TO 'PortalAnaliticas'@'127.0.0.1';
 
+GRANT 'Rol_AppGeneral' TO 'AppGeneral'@'%'
+GRANT 'Rol_AppConductores' TO 'AppDriver'@'%'
 
 -- Permisos de los usuarios/roles
 
 -- Permisos del PortalAnaliticas
 
 GRANT SELECT ON ride_hailing_db.* TO 'Rol_Analiticas';
--- REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_Analiticas';
+REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_Analiticas';
+
 -- Permisos del BackGroundJob gestor de pagos
 
 -- Escritura
@@ -54,7 +57,6 @@ GRANT INSERT, SELECT ON ride_hailing_db.Transacciones TO 'Rol_BackGroundJob';
 -- Lectura
 GRANT SELECT ON ride_hailing_db.Viaje TO 'Rol_BackGroundJob';
 GRANT SELECT ON ride_hailing_db.Oferta TO 'Rol_BackGroundJob';
-GRANT SELECT ON ride_hailing_db.Viaje TO 'Rol_BackGroundJob';
 GRANT SELECT ON ride_hailing_db.Usuario TO 'Rol_BackGroundJob';
 
 GRANT SELECT ON ride_hailing_db.Informacion_Bancaria TO 'Rol_BackGroundJob';
@@ -77,13 +79,13 @@ GRANT INSERT on ride_hailing_db.Posicion TO 'Rol_AppConductores';
 GRANT SELECT ON ride_hailing_db.* TO 'Rol_AppGeneral';
 GRANT SELECT ON ride_hailing_db.* TO 'Rol_AppConductores';
 
--- REVOKE SELECT ON ride_hailing_db.Transacciones FROM 'Rol_AppConductores';
--- REVOKE SELECT ON ride_hailing_db.Transacciones FROM 'Rol_AppGeneral';
--- REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_AppConductores';
--- REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_AppGeneral';
+REVOKE SELECT ON ride_hailing_db.Transacciones FROM 'Rol_AppConductores';
+REVOKE SELECT ON ride_hailing_db.Transacciones FROM 'Rol_AppGeneral';
+REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_AppConductores';
+REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_AppGeneral';
 -- Permisos del Admin
--- GRANT ALL PRIVILEGES ON *.* TO 'admin'@'127.0.0.1';
--- REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'127.0.0.1';
+REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
 
 -- Permisos de los desarrolladores
 
@@ -98,7 +100,7 @@ GRANT SELECT, ALTER, CREATE, DELETE, UPDATE, INSERT, INDEX ON ride_hailing_db.* 
 -- Vistas para el dashboard
 CREATE VIEW v_usuario_dashboard AS                                                                                                          
 SELECT id, Nombre, Apellido, Genero                                                                                                           
-FROM Usuario; 
+FROM Usuario;
 
 -- USUARIOS DE INFRAESTRUCTURA (NECESARIOS PARA LA ARQUITECTURA 4 NODOS)
 
