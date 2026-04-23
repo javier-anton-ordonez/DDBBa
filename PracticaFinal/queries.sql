@@ -1,15 +1,7 @@
--- =============================================================
--- queries.sql - Operativa de la plataforma ride_hailing_db
--- Incluye: INSERT / SELECT / UPDATE / DELETE, JOINS,
--- transacciones y control de concurrencia con locks.
--- =============================================================
-
 USE ride_hailing_db;
 
 
--- =============================================================
 -- 1) CONSULTAS OPERATIVAS (LECTURA)
--- =============================================================
 
 -- 1.1 Historial de viajes de un rider (detalle completo)
 -- Parametro de ejemplo:
@@ -97,9 +89,7 @@ GROUP BY v.Id, conductor, compania
 ORDER BY v.Id DESC;
 
 
--- =============================================================
 -- 2) OPERATIVA CON TRANSACCIONES
--- =============================================================
 
 -- 2.1 Crear una nueva oferta + viaje en estado Solicitado
 -- (flujo rider solicita viaje A -> B)
@@ -145,8 +135,8 @@ WHERE OfertaId = @oferta_a_aceptar
   AND Estado = 'Solicitado'
   AND ConductorId IS NULL;
 
--- Si ROW_COUNT() = 1, este conductor gano la carrera.
--- Si ROW_COUNT() = 0, otro conductor ya lo acepto antes o el viaje no era aceptable.
+-- Si ROW_COUNT() = 1, conductor gano la carrera
+-- Si ROW_COUNT() = 0, otro conductor ya acepto antes
 SELECT ROW_COUNT() AS filas_actualizadas;
 
 COMMIT;
@@ -171,7 +161,6 @@ COMMIT;
 
 
 -- 2.4 Finalizar viaje + registrar movimientos economicos
--- Regla simple usada en los datos: un cargo negativo al rider y un abono positivo al conductor.
 START TRANSACTION;
 
 SET @viaje_a_finalizar = 120;
@@ -242,9 +231,7 @@ SELECT ROW_COUNT() AS viaje_cancelado;
 COMMIT;
 
 
--- =============================================================
 -- 3) UPDATES / DELETES DE OPERATIVA
--- =============================================================
 
 -- 3.1 Actualizar datos de contacto de usuario
 SET @usuario_update = 12;
@@ -272,9 +259,7 @@ DELETE FROM Posicion
 WHERE Hora < DATE_SUB(NOW(), INTERVAL 30 DAY);
 
 
--- =============================================================
 -- 4) CONSULTAS DE CONTROL / AUDITORIA BASICA
--- =============================================================
 
 -- 4.1 Detectar viajes en estado incoherente
 SELECT
