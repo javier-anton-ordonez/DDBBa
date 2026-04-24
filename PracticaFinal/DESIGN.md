@@ -336,7 +336,7 @@ erDiagram
    - CuentaId: Cuenta bancaria asociada a la transacción.
    - ViajeId: Viaje asociado a la transacción.
 
-## Relaciones. (Guille)
+## Relaciones.
 
 ### Vehículo-Conductor
    Un conductor puede tener asignado un vehículo. Si el vehículo se elimina, el campo VehiculoId del conductor se establece a NULL.

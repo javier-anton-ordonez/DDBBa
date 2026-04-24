@@ -282,5 +282,61 @@ ALTER TABLE Viaje ADD CONSTRAINT fk_Viaje_ConductorId FOREIGN KEY(ConductorId) R
 ALTER TABLE Viaje ADD CONSTRAINT fk_Viaje_OfertaId FOREIGN KEY(OfertaId) REFERENCES Oferta(Id) ON UPDATE CASCADE ON DELETE RESTRICT;
 ALTER TABLE Posicion ADD CONSTRAINT fk_Posicion_ConductorId FOREIGN KEY(ConductorId) REFERENCES Conductor(Id) ON UPDATE CASCADE ON DELETE CASCADE;
 
+-- Indexes
+ALTER TABLE Informacion_Bancaria ADD INDEX idx_informacion_bancaria_mes (Mes);
+ALTER TABLE Viaje ADD INDEX idx_viaje_estado (Estado);
+ALTER TABLE Conductor ADD INDEX idx_conductor_empresa (EmpresaId);
+ALTER TABLE Transacciones ADD INDEX idx_transacciones_momento (Momento);
+ALTER TABLE Transacciones ADD INDEX idx_transacciones_cuenta (CuentaId);
+ALTER TABLE Transacciones ADD INDEX idx_transacciones_viaje (ViajeId);
+ALTER TABLE Oferta ADD INDEX idx_oferta_hora (Hora);
+ALTER TABLE Oferta ADD INDEX idx_oferta_precio (Precio); 
+ALTER TABLE Oferta ADD INDEX idx_oferta_usuario (UsuarioId);
+ALTER TABLE Compania ADD INDEX idx_compania_nombre (Nombre);
+ALTER TABLE Posicion ADD INDEX idx_posicion_conductor_hora (ConductorId, Hora);
+
 COMMIT;
+
+
+-- Partitions
+
+ALTER TABLE Posicion
+PARTITION BY RANGE (UNIX_TIMESTAMP(Hora)) (
+    PARTITION p_pos_historico VALUES LESS THAN (UNIX_TIMESTAMP('2024-01-01')),
+    PARTITION p_pos_ano_ant  VALUES LESS THAN (UNIX_TIMESTAMP('2025-01-01')),
+    PARTITION p_pos_ano_act  VALUES LESS THAN (UNIX_TIMESTAMP('2026-01-01')),
+    PARTITION p_pos_future    VALUES LESS THAN MAXVALUE
+);
+ALTER TABLE Viaje
+PARTITION BY RANGE (UNIX_TIMESTAMP(Editado)) (
+    PARTITION p_via_historico VALUES LESS THAN (UNIX_TIMESTAMP('2024-01-01')),
+    PARTITION p_via_ano_ant  VALUES LESS THAN (UNIX_TIMESTAMP('2025-01-01')),
+    PARTITION p_via_ano_act  VALUES LESS THAN (UNIX_TIMESTAMP('2026-01-01')),
+    PARTITION p_via_future   VALUES LESS THAN MAXVALUE
+);
+
+ALTER TABLE Vehiculo
+PARTITION BY RANGE (UNIX_TIMESTAMP(Editado)) (
+    PARTITION p_veh_historico VALUES LESS THAN (UNIX_TIMESTAMP('2025-01-01')),
+    PARTITION p_veh_ano_act   VALUES LESS THAN (UNIX_TIMESTAMP('2026-01-01')),
+    PARTITION p_veh_future    VALUES LESS THAN MAXVALUE
+);
+
+ALTER TABLE Telemetria
+PARTITION BY RANGE (UNIX_TIMESTAMP(Editado)) (
+    PARTITION p_tel_historico VALUES LESS THAN (UNIX_TIMESTAMP('2025-01-01')),
+    PARTITION p_tel_ano_act   VALUES LESS THAN (UNIX_TIMESTAMP('2026-01-01')),
+    PARTITION p_tel_future    VALUES LESS THAN MAXVALUE
+);
+
+
+ALTER TABLE Oferta
+REORGANIZE PARTITION p_recent INTO (
+    PARTITION p_old VALUES LESS THAN (
+        TO_DAYS(DATE_FORMAT(NOW() + INTERVAL 1 MONTH, '%Y-%m-01'))
+    ),
+    PARTITION p_recent VALUES LESS THAN MAXVALUE
+);
+
+
 
