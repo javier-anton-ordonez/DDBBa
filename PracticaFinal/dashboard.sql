@@ -9,9 +9,10 @@
 --     1.3  Tasa de aceptación (global, por conductor, por compañía)
 --     1.4  Ingresos (por conductor, por compañía)
 --     1.5  Tiempo medio de viaje (por conductor, por compañía)
---     1.6  Euros por minuto (por conductor, por compañía)
---     1.7  Valoraciones y calidad del servicio
---     1.8  Actividad de usuarios
+--     1.6  Euros por minuto y euros por km (por conductor, por compañía)
+--     1.7  Kilometraje medio y euros por km (por conductor, por compañía)
+--     1.8  Valoraciones y calidad del servicio
+--     1.9  Actividad de usuarios
 --   SECCIÓN 2 — MÉTRICAS DE BASE DE DATOS
 --     2.1  Tamaño y filas por tabla
 --     2.2  Usuarios de base de datos activos
@@ -223,10 +224,8 @@ ORDER BY duracion_media_min;
 
 
 -- -------------------------------------------------------------
--- 1.6  EUROS POR MINUTO
--- Relaciona los ingresos de cada viaje con su duración.
--- Nota: euros/km no es calculable porque el esquema no almacena
--- la distancia del viaje.
+-- 1.6  EUROS POR MINUTO Y EUROS POR KM
+-- Relaciona los ingresos de cada viaje con su duración y distancia.
 -- -------------------------------------------------------------
 
 -- Euros por minuto por conductor
@@ -262,6 +261,44 @@ JOIN Viaje        v  ON v.ConductorId = c.Id AND v.Estado = 'Finalizado' AND v.F
 JOIN Transacciones t ON t.ViajeId     = v.Id
 GROUP BY co.Id, co.Nombre
 ORDER BY eur_por_minuto DESC;
+
+
+-- -------------------------------------------------------------
+-- 1.7  KILOMETRAJE MEDIO Y EUROS POR KM
+-- -------------------------------------------------------------
+
+-- Kilometraje medio y euros/km por conductor
+SELECT
+    CONCAT(u.Nombre, ' ', u.Apellido)              AS conductor,
+    co.Nombre                                       AS compania,
+    COUNT(v.Id)                                     AS viajes,
+    ROUND(AVG(v.DistanciaKm), 2)                   AS km_medio,
+    ROUND(SUM(v.DistanciaKm), 2)                   AS km_totales,
+    ROUND(SUM(t.Cantidad), 2)                       AS ingresos_totales_eur,
+    ROUND(SUM(t.Cantidad) / NULLIF(SUM(v.DistanciaKm), 0), 3) AS eur_por_km
+FROM Conductor c
+JOIN Usuario      u  ON c.UsuarioId   = u.Id
+JOIN Compania     co ON c.EmpresaId   = co.Id
+JOIN Viaje        v  ON v.ConductorId = c.Id AND v.Estado = 'Finalizado' AND v.DistanciaKm IS NOT NULL
+JOIN Transacciones t ON t.ViajeId     = v.Id
+GROUP BY c.Id, conductor, compania
+ORDER BY eur_por_km DESC;
+
+
+-- Kilometraje medio y euros/km por compañía
+SELECT
+    co.Nombre                                        AS compania,
+    COUNT(v.Id)                                      AS viajes,
+    ROUND(AVG(v.DistanciaKm), 2)                    AS km_medio,
+    ROUND(SUM(v.DistanciaKm), 2)                    AS km_totales,
+    ROUND(SUM(t.Cantidad), 2)                        AS ingresos_totales_eur,
+    ROUND(SUM(t.Cantidad) / NULLIF(SUM(v.DistanciaKm), 0), 3) AS eur_por_km
+FROM Compania co
+JOIN Conductor    c  ON c.EmpresaId   = co.Id
+JOIN Viaje        v  ON v.ConductorId = c.Id AND v.Estado = 'Finalizado' AND v.DistanciaKm IS NOT NULL
+JOIN Transacciones t ON t.ViajeId     = v.Id
+GROUP BY co.Id, co.Nombre
+ORDER BY eur_por_km DESC;
 
 
 -- -------------------------------------------------------------
