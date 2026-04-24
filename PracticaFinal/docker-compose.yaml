@@ -86,6 +86,33 @@ services:
       - db-master-1
 
   # ==========================================
+  # MONITORIZACIÓN: mysqld_exporter → Prometheus → Grafana
+  # ==========================================
+  mysqld-exporter:
+    image: prom/mysqld-exporter
+    container_name: ride-mysqld-exporter
+    environment:
+      DATA_SOURCE_NAME: "exporter:exporterpass@(db-read-dashboard:3306)/"
+    ports:
+      - "9104:9104"
+    networks:
+      - ride-network
+    depends_on:
+      - db-read-dashboard
+
+  prometheus:
+    image: prom/prometheus
+    container_name: ride-prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - ride-network
+    depends_on:
+      - mysqld-exporter
+
+  # ==========================================
   # HERRAMIENTA DE GESTIÓN VISUAL
   # ==========================================
   grafana:
@@ -99,7 +126,7 @@ services:
     networks:
       - ride-network
     depends_on:
-      - db-read-dashboard
+      - prometheus
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
