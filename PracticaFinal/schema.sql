@@ -60,6 +60,8 @@ CREATE TABLE IF NOT EXISTS Viaje (
     Alta      DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Editado   DATETIME,
 
+    DistanciaKm DECIMAL(8,2) DEFAULT NULL,
+
     ConductorId BIGINT,
     OfertaId BIGINT,
     PRIMARY KEY (Id)

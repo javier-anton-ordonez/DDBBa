@@ -1418,6 +1418,11 @@ INSERT INTO `Viaje` (`id`, `Inicio`, `Fin`, `Estado`, `Nota`, `Comentario`, `Con
 (477, '2025-12-11 00:00:00', '2025-12-11 00:32:00', 'Finalizado', 3, 'Muy profesional', 3, 477),
 (478, '2026-02-17 17:43:00', '2026-02-17 18:22:00', 'Finalizado', 3, 'Viaje cómodo', 8, 478);
 
+-- Distancia estimada: ~0.5 km/min base + variación por Id (urbano realista)
+UPDATE Viaje
+SET DistanciaKm = ROUND(TIMESTAMPDIFF(MINUTE, Inicio, Fin) * 0.5 + (Id MOD 10) * 0.3, 2)
+WHERE Estado = 'Finalizado' AND Fin IS NOT NULL;
+
 -- ============================================
 -- TRANSACCIONES (668 transacciones - 2 por viaje finalizado)
 -- ============================================
