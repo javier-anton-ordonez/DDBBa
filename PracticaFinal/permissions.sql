@@ -161,9 +161,8 @@ CREATE USER IF NOT EXISTS 'dashboard_user'@'%' IDENTIFIED BY 'dashboard_password
 GRANT SELECT ON ride_hailing_db.* TO 'dashboard_user'@'%';
 
 -- Usuario para monitorización (mysqld_exporter → Prometheus → Grafana)
--- Restringido al contenedor exacto que se conecta (ride-mysqld-exporter)
-CREATE USER IF NOT EXISTS 'exporter'@'ride-mysqld-exporter' IDENTIFIED BY 'exporterpass';
-GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'ride-mysqld-exporter';
+CREATE USER IF NOT EXISTS 'exporter'@'%' IDENTIFIED BY 'exporterpass';
+GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'%';
 
 FLUSH PRIVILEGES;
 
