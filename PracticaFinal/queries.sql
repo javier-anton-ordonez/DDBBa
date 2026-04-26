@@ -135,9 +135,14 @@ WHERE OfertaId = @oferta_a_aceptar
   AND Estado = 'Solicitado'
   AND ConductorId IS NULL;
 
--- Si ROW_COUNT() = 1, conductor gano la carrera
--- Si ROW_COUNT() = 0, otro conductor ya acepto antes
-SELECT ROW_COUNT() AS filas_actualizadas;
+-- Si ROW_COUNT() = 1, el conductor se queda el viaje
+-- Si ROW_COUNT() = 0, otro conductor ya lo acepto antes
+SELECT
+	ROW_COUNT() AS filas_actualizadas,
+	CASE
+		WHEN ROW_COUNT() = 1 THEN 'aceptado'
+		ELSE 'ya_aceptado'
+	END AS resultado;
 
 COMMIT;
 
@@ -327,14 +332,17 @@ BEGIN
     ALTER TABLE Posicion DROP PARTITION p_pos_historico;
 
     -- 2. reorganizar en un solo paso (clave)
-    ALTER TABLE Posicion
-    REORGANIZE PARTITION p_pos_ano_ant, p_pos_ano_act, p_pos_future INTO (
+	SET @v_sql = CONCAT(
+		'ALTER TABLE Posicion REORGANIZE PARTITION p_pos_ano_ant, p_pos_ano_act, p_pos_future INTO (',
+		'PARTITION p_pos_historico VALUES LESS THAN (', v_hist, '), ',
+		'PARTITION p_pos_ano_ant VALUES LESS THAN (', v_ant, '), ',
+		'PARTITION p_pos_ano_act VALUES LESS THAN (', v_act, '), ',
+		'PARTITION p_pos_future VALUES LESS THAN MAXVALUE)'
+	);
 
-        PARTITION p_pos_historico VALUES LESS THAN (v_hist),
-        PARTITION p_pos_ano_ant   VALUES LESS THAN (v_ant),
-        PARTITION p_pos_ano_act   VALUES LESS THAN (v_act),
-        PARTITION p_pos_future    VALUES LESS THAN MAXVALUE
-    );
+	PREPARE stmt FROM @v_sql;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
 
 END$$
 
@@ -359,14 +367,17 @@ BEGIN
 
     ALTER TABLE Viaje DROP PARTITION p_via_historico;
 
-    ALTER TABLE Viaje
-    REORGANIZE PARTITION p_via_ano_ant, p_via_ano_act, p_via_future INTO (
+	SET @v_sql = CONCAT(
+		'ALTER TABLE Viaje REORGANIZE PARTITION p_via_ano_ant, p_via_ano_act, p_via_future INTO (',
+		'PARTITION p_via_historico VALUES LESS THAN (', v_hist, '), ',
+		'PARTITION p_via_ano_ant VALUES LESS THAN (', v_ant, '), ',
+		'PARTITION p_via_ano_act VALUES LESS THAN (', v_act, '), ',
+		'PARTITION p_via_future VALUES LESS THAN MAXVALUE)'
+	);
 
-        PARTITION p_via_historico VALUES LESS THAN (v_hist),
-        PARTITION p_via_ano_ant   VALUES LESS THAN (v_ant),
-        PARTITION p_via_ano_act   VALUES LESS THAN (v_act),
-        PARTITION p_via_future    VALUES LESS THAN MAXVALUE
-    );
+	PREPARE stmt FROM @v_sql;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
 
 END$$
 
@@ -389,13 +400,16 @@ BEGIN
 
     ALTER TABLE Vehiculo DROP PARTITION p_veh_historico;
 
-    ALTER TABLE Vehiculo
-    REORGANIZE PARTITION p_veh_ano_act, p_veh_future INTO (
+	SET @v_sql = CONCAT(
+		'ALTER TABLE Vehiculo REORGANIZE PARTITION p_veh_ano_act, p_veh_future INTO (',
+		'PARTITION p_veh_historico VALUES LESS THAN (', v_hist, '), ',
+		'PARTITION p_veh_ano_act VALUES LESS THAN (', v_act, '), ',
+		'PARTITION p_veh_future VALUES LESS THAN MAXVALUE)'
+	);
 
-        PARTITION p_veh_historico VALUES LESS THAN (v_hist),
-        PARTITION p_veh_ano_act   VALUES LESS THAN (v_act),
-        PARTITION p_veh_future    VALUES LESS THAN MAXVALUE
-    );
+	PREPARE stmt FROM @v_sql;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
 
 END$$
 
@@ -418,13 +432,16 @@ BEGIN
 
     ALTER TABLE Telemetria DROP PARTITION p_tel_historico;
 
-    ALTER TABLE Telemetria
-    REORGANIZE PARTITION p_tel_ano_act, p_tel_future INTO (
+	SET @v_sql = CONCAT(
+		'ALTER TABLE Telemetria REORGANIZE PARTITION p_tel_ano_act, p_tel_future INTO (',
+		'PARTITION p_tel_historico VALUES LESS THAN (', v_hist, '), ',
+		'PARTITION p_tel_ano_act VALUES LESS THAN (', v_act, '), ',
+		'PARTITION p_tel_future VALUES LESS THAN MAXVALUE)'
+	);
 
-        PARTITION p_tel_historico VALUES LESS THAN (v_hist),
-        PARTITION p_tel_ano_act   VALUES LESS THAN (v_act),
-        PARTITION p_tel_future    VALUES LESS THAN MAXVALUE
-    );
+	PREPARE stmt FROM @v_sql;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
 
 END$$
 
