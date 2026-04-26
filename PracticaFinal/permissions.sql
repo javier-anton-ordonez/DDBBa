@@ -40,15 +40,28 @@ GRANT 'Rol_BackGroundJob' TO 'BackGroundJob'@'127.0.0.1';
 
 GRANT 'Rol_Analiticas' TO 'PortalAnaliticas'@'127.0.0.1';
 
-GRANT 'Rol_AppGeneral' TO 'AppGeneral'@'%'
-GRANT 'Rol_AppConductores' TO 'AppDriver'@'%'
+GRANT 'Rol_AppGeneral' TO 'AppGeneral'@'%';
+GRANT 'Rol_AppConductores' TO 'AppDriver'@'%';
 
 -- Permisos de los usuarios/roles
 
 -- Permisos del PortalAnaliticas
-
-GRANT SELECT ON ride_hailing_db.* TO 'Rol_Analiticas';
-REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Permisos TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Roles TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.RolesPermisos TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.RolesUsuario TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Usuario TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Conductor TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Vehiculo TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Viaje TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Oferta TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Ubicacion TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.UsuarioUbicacion TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.TipoUbicacion TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Transacciones TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Telemetria TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Compania TO 'Rol_Analiticas';
+GRANT SELECT ON ride_hailing_db.Posicion TO 'Rol_Analiticas';
 
 -- Permisos del BackGroundJob gestor de pagos
 
@@ -76,16 +89,42 @@ GRANT INSERT on ride_hailing_db.Vehiculo TO 'Rol_AppConductores';
 GRANT INSERT on ride_hailing_db.Posicion TO 'Rol_AppConductores';
 
 -- Lectura
-GRANT SELECT ON ride_hailing_db.* TO 'Rol_AppGeneral';
-GRANT SELECT ON ride_hailing_db.* TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Permisos TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Roles TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.RolesPermisos TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.RolesUsuario TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Usuario TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Conductor TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Vehiculo TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Viaje TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Oferta TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Ubicacion TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.UsuarioUbicacion TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.TipoUbicacion TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Telemetria TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Compania TO 'Rol_AppGeneral';
+GRANT SELECT ON ride_hailing_db.Posicion TO 'Rol_AppGeneral';
 
-REVOKE SELECT ON ride_hailing_db.Transacciones FROM 'Rol_AppConductores';
-REVOKE SELECT ON ride_hailing_db.Transacciones FROM 'Rol_AppGeneral';
-REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_AppConductores';
-REVOKE SELECT ON ride_hailing_db.Informacion_Bancaria FROM 'Rol_AppGeneral';
+
+GRANT SELECT ON ride_hailing_db.Permisos TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Roles TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.RolesPermisos TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.RolesUsuario TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Usuario TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Conductor TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Vehiculo TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Viaje TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Oferta TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Ubicacion TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.UsuarioUbicacion TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.TipoUbicacion TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Telemetria TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Compania TO 'Rol_AppConductores';
+GRANT SELECT ON ride_hailing_db.Posicion TO 'Rol_AppConductores';
+
 -- Permisos del Admin
-GRANT ALL PRIVILEGES ON *.* TO 'admin'@'127.0.0.1';
-REVOKE SHUTDOWN ON *.* FROM 'admin'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON *.* TO 'Admin'@'127.0.0.1';
+REVOKE SHUTDOWN ON *.* FROM 'Admin'@'127.0.0.1';
 
 -- Permisos de los desarrolladores
 

@@ -28,10 +28,10 @@ En equipos de **4 personas**, diseñad e implementad una base de datos relaciona
 ## Entregables esperados
 
 - MER y scripts: creación, carga, consultas, updates, deletes y permisos.
-- Carga masiva de usuarios, vehículos, viajes y ofertas.
+**- Carga masiva de usuarios, vehículos, viajes y ofertas.** <----
 - Desarrollar **índices** para mejorar el rendimiento de las consultas.
 - Consultas para el dashboard y la operativa básica (insertar ofertas, viajes, usuarios, etc.).
-- Al menos una consulta con **locks** por concurrencia y varias con **transacciones** y **joins**.
+- Al menos una consulta con **locks** por concurrencia y varias con **transacciones** y **joins**. <-----
 - Un `.md` con instrucciones para arrancar la base de datos y el dashboard, y cargar datos de prueba.
 - Uso de Docker y Docker Compose para el despliegue.
 
@@ -48,6 +48,6 @@ Al final, el día de la defensa, se debe presentar el proyecto, explicando el di
 - ~~`backup.sql`: plan de backup y recuperación.~~
 - ~~`permissions.sql`: permisos para la seguridad del sistema.~~
 - ~~`compose.yml`: despliegue de la base de datos y el dashboard.~~
-- ~~`README.md`: instrucciones para arrancar la base de datos y el dashboard, y cargar datos de prueba.~~
-- `DESIGN.md`: explica el diseño de la base de datos, las tablas, índices, etc. Usar Markdown y Mermaid (sobre todo para el MER).
+- ~~`README.md`: instrucciones para arrancar la base de datos y el dashboard, y cargar datos de prueba.~~  <------
+- `DESIGN.md`: explica el diseño de la base de datos, las tablas, *índices*, etc. Usar Markdown y Mermaid (sobre todo para el MER).
 - `presentacion.pdf`: presentación del proyecto, usar un PowerPoint o similar para el día de la defensa. Indicar los integrantes del equipo y la aportación de cada uno.

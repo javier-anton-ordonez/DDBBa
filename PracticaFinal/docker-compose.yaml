@@ -45,6 +45,10 @@ services:
       - ride-network
     depends_on:
       - db-master-1
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   # ==========================================
   # NODO 3: LECTURA APP
@@ -64,6 +68,10 @@ services:
       - ride-network
     depends_on:
       - db-master-1
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   # ==========================================
   # NODO 4: LECTURA DASHBOARD & BACKUPS
@@ -84,6 +92,32 @@ services:
       - ride-network
     depends_on:
       - db-master-1
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # SERVICIO PARA INICIAR LA REPLICIDAD
+  
+  db-init:
+    image: mysql:8.0
+    container_name: ride-db-init
+    networks:
+      - ride-network
+    depends_on:
+      db-master-1:
+        condition: service_healthy
+      db-master-2:
+        condition: service_started
+      db-read-app:
+        condition: service_started
+      db-read-dashboard:
+        condition: service_started
+    volumes:
+      - ./init-replication.sh:/init-replication.sh
+    entrypoint: ["bash", "/init-replication.sh"]
+    restart: "no"
+
 
   # ==========================================
   # MONITORIZACIÓN: mysqld_exporter → Prometheus → Grafana
@@ -154,3 +188,5 @@ volumes:
 networks:
   ride-network:
     driver: bridge
+
+

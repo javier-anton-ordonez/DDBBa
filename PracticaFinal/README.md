@@ -1,5 +1,9 @@
 # Instrucciones para levantar la base de datos.
+Primero damos permiso de ejecución al script que inicia las replicas de las bases de datos
+```bash
+   chmod +x init-replication.sh
 
+```
 El comando de docker para levantar la base de datos con todas sus copias es:
 ``` bash
 docker compose -f docker-compose.yaml up -d --build
