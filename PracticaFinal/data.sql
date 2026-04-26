@@ -1,12 +1,6 @@
--- Data.sql - Datos de prueba para la base de datos de ride-hailing
--- 100 usuarios, ~25 conductores, ~500 viajes (5 por usuario de media)
--- Período: Septiembre 2025 - Febrero 2026
-
 START TRANSACTION;
 
--- ============================================
 -- EMPRESAS DE TRANSPORTE (3 empresas)
--- ============================================
 INSERT INTO `Compania` (`id`, `Nombre`, `Logo`, `Email`, `Numero`) VALUES
 (1, 'Radio Taxi Madrid', 'radiotaxi_logo.png', 'contacto@radiotaximadrid.es', '+34911234567'),
 (2, 'DriveNow VTC', 'drivenow_logo.png', 'info@drivenow.es', '+34912345678'),
@@ -20,9 +14,7 @@ INSERT INTO `TipoUbicacion` (`Id`, `Nombre`) VALUES
 (2, 'Trabajo'),
 (3, 'Historico');
 
--- ============================================
 -- USUARIOS (100 usuarios)
--- ============================================
 INSERT INTO `Usuario` (`id`, `Nombre`, `Apellido`, `Email`, `Numero`, `Genero`) VALUES
 (1, 'Carlos', 'García Martínez', 'carlos.garcia@email.com', '+34600111001', 'Masculino'),
 (2, 'María', 'López Sánchez', 'maria.lopez@email.com', '+34600111002', 'Femenino'),
@@ -125,9 +117,7 @@ INSERT INTO `Usuario` (`id`, `Nombre`, `Apellido`, `Email`, `Numero`, `Genero`) 
 (99, 'Valentín', 'Giménez Lorenzo', 'valentin.gimenez@email.com', '+34600111099', 'Masculino'),
 (100, 'Margarita', 'Soto Méndez', 'margarita.soto@email.com', '+34600111100', 'Femenino');
 
--- ============================================
 -- INFORMACIÓN BANCARIA (100 usuarios)
--- ============================================
 INSERT INTO `Informacion_Bancaria` (`id`, `UsuarioId`, `IBAN`, `Dia`, `Mes`) VALUES
 (1, 1, 'ES9121000418450200051332', 15, 1),
 (2, 2, 'ES9100049876543210987654', 20, 2),
@@ -230,9 +220,7 @@ INSERT INTO `Informacion_Bancaria` (`id`, `UsuarioId`, `IBAN`, `Dia`, `Mes`) VAL
 (99, 99, 'ES7520389012345678901240', 24, 3),
 (100, 100, 'ES6014049012345678901240', 7, 4);
 
--- ============================================
 -- TELEMETRÍA (100 usuarios - todos aceptaron cookies)
--- ============================================
 INSERT INTO `Telemetria` (`id`, `UsuarioId`, `TiempoEnApp`, `CookiesAceptadas`, `UltimaVezConnectado`, `NumeroViajes`) VALUES
 (1, 1, 45600, 1, '2026-02-17 15:30:00', 5),
 (2, 2, 32400, 1, '2026-02-17 18:45:00', 4),
@@ -339,9 +327,7 @@ COMMIT;
 
 START TRANSACTION;
 
--- ============================================
 -- VEHÍCULOS (20 vehículos: 10 activos, 10 dados de baja)
--- ============================================
 INSERT INTO `Vehiculo` (`id`, `Matricula`, `Plazas`, `Marca`, `Modelo`, `Alta`, `Estado`, `Editado`, `Baja`) VALUES
 (1, '1234ABC', 4, 'Toyota', 'Prius', '2024-01-15 10:00:00', 'Activo', '2025-09-01 12:00:00', NULL),
 (2, '5678DEF', 4, 'Seat', 'Leon', '2023-06-20 09:30:00', 'Activo', '2025-10-15 14:30:00', NULL),
@@ -364,11 +350,10 @@ INSERT INTO `Vehiculo` (`id`, `Matricula`, `Plazas`, `Marca`, `Modelo`, `Alta`, 
 (19, '3197CDE', 5, 'Alfa Romeo', 'Giulia', '2022-06-11 12:40:00', 'Baja', '2025-09-10 13:10:00', '2025-09-10 13:10:00'),
 (20, '2086FGH', 4, 'Lexus', 'IS', '2021-08-19 14:25:00', 'Baja', '2025-07-05 10:50:00', '2025-07-05 10:50:00');
 
--- ============================================
 -- CONDUCTORES (25 conductores)
 -- Vehículos 1-10 asignados, 11-20 fueron de baja
 -- 2 conductores comparten vehículo (conductores 24 y 25 usan vehículo 1)
--- ============================================
+
 INSERT INTO `Conductor` (`id`, `VehiculoID`, `CarnetDeConducir`, `Documentacion`, `Alta`, `Estado`, `EmpresaID`, `UsuarioId`) VALUES
 (1, 1, 'B-12345678', '12345678A', '2024-01-20 09:00:00', 'Activo', 1, 1),
 (2, 2, 'B-23456789', '23456789B', '2023-07-01 10:30:00', 'Activo', 2, 3),
@@ -396,9 +381,7 @@ INSERT INTO `Conductor` (`id`, `VehiculoID`, `CarnetDeConducir`, `Documentacion`
 (24, 1, 'B-40506070', '40506070X', '2024-02-10 11:30:00', 'Activo', 1, 47),
 (25, 1, 'B-50607080', '50607080Y', '2024-09-05 14:00:00', 'Activo', 1, 49);
 
--- ============================================
 -- UBICACIONES (50 ubicaciones en Madrid)
--- ============================================
 INSERT INTO `Ubicacion` (`id`, `TipoAvenida`, `Nombre`, `Numero`, `Alta`) VALUES
 (1, 'Calle', 'Gran Vía', '28', '2025-09-01 10:00:00'),
 (2, 'Avenida', 'Castellana', '45', '2025-09-01 10:15:00'),
@@ -451,9 +434,7 @@ INSERT INTO `Ubicacion` (`id`, `TipoAvenida`, `Nombre`, `Numero`, `Alta`) VALUES
 (49, 'Plaza', 'Callao', '2', '2025-09-06 09:30:00'),
 (50, 'Calle', 'Hortaleza', '71', '2025-09-06 10:00:00');
 
--- ============================================
 -- OFERTAS (500 ofertas)
--- ============================================
 INSERT INTO `Oferta` (`id`, `Hora`, `Precio`, `Descuento`, `OrigenId`, `DestinoId`, `UsuarioId`) VALUES
 (1, '2025-09-12 21:38:00', 38.97, 0.0, 34, 46, 1),
 (2, '2025-10-11 08:35:00', 20.83, 7.8, 3, 41, 1),
@@ -934,10 +915,8 @@ INSERT INTO `Oferta` (`id`, `Hora`, `Precio`, `Descuento`, `OrigenId`, `DestinoI
 (477, '2025-12-10 23:35:00', 35.51, 0.0, 35, 4, 100),
 (478, '2026-02-17 17:19:00', 20.08, 0.0, 6, 2, 100);
 
--- ============================================
 -- VIAJES (500 viajes con distribución de estados)
 -- 70% Finalizados, 10% Cancelados, 10% En curso, 5% Aceptados, 5% Solicitados
--- ============================================
 INSERT INTO `Viaje` (`id`, `Inicio`, `Fin`, `Estado`, `Nota`, `Comentario`, `ConductorID`, `OfertaID`) VALUES
 (1, '2025-09-12 22:07:00', '2025-09-12 22:21:00', 'Finalizado', 4, NULL, 1, 1),
 (2, '2025-10-11 09:04:00', '2025-10-11 09:27:00', 'Finalizado', 5, 'Recomendado', 9, 2),
@@ -1423,9 +1402,7 @@ UPDATE Viaje
 SET DistanciaKm = ROUND(TIMESTAMPDIFF(MINUTE, Inicio, Fin) * 0.5 + (Id MOD 10) * 0.3, 2)
 WHERE Estado = 'Finalizado' AND Fin IS NOT NULL;
 
--- ============================================
 -- TRANSACCIONES (668 transacciones - 2 por viaje finalizado)
--- ============================================
 INSERT INTO `Transacciones` (`id`, `Cantidad`, `CuentaId`, `momento`, `ViajeId`) VALUES
 (1, -38.97, 1, '2025-09-12 22:21:00', 1),
 (2, 31.18, 1, '2025-09-12 22:21:00', 1),
@@ -1533,7 +1510,7 @@ INSERT INTO `Transacciones` (`id`, `Cantidad`, `CuentaId`, `momento`, `ViajeId`)
 (104, 8.89, 9, '2026-01-16 07:01:00', 72),
 (105, -31.53, 15, '2025-12-23 20:39:00', 73),
 (106, 25.22, 41, '2025-12-23 20:39:00', 73),
-(107, --2.0199999999999996, 15, '2025-10-30 16:00:00', 74),
+(107, -2.0199999999999996, 15, '2025-10-30 16:00:00', 74),
 (108, -1.62, 47, '2025-10-30 16:00:00', 74),
 (109, -8.13, 16, '2026-01-07 08:52:00', 75),
 (110, 6.5, 5, '2026-01-07 08:52:00', 75),
@@ -2096,47 +2073,34 @@ INSERT INTO `Transacciones` (`id`, `Cantidad`, `CuentaId`, `momento`, `ViajeId`)
 (667, -20.08, 100, '2026-02-17 18:22:00', 478),
 (668, 16.06, 15, '2026-02-17 18:22:00', 478);
 
--- ============================================
 -- USUARIO-UBICACIÓN (Ubicaciones favoritas y frecuentes de usuarios)
 -- Cada usuario tiene 2-4 ubicaciones (Casa, Trabajo, Histórico)
--- ============================================
 INSERT INTO `UsuarioUbicacion` (`UsuarioId`, `UbicacionID`, `UltimaVezUsada`, `VecesUsada`, `TipoID`) VALUES
--- Usuario 1
 (1, 1, '2026-02-17 15:30:00', 15, 1),
 (1, 25, '2026-02-16 09:00:00', 12, 2),
 (1, 33, '2026-02-15 18:30:00', 8, 3),
--- Usuario 2
 (2, 2, '2026-02-17 18:45:00', 10, 1),
 (2, 10, '2026-02-16 08:30:00', 18, 2),
--- Usuario 3
 (3, 3, '2026-02-16 09:20:00', 14, 1),
 (3, 15, '2026-02-15 17:00:00', 9, 2),
 (3, 24, '2026-02-14 12:30:00', 5, 3),
--- Usuario 4
 (4, 4, '2026-02-17 12:10:00', 8, 1),
 (4, 22, '2026-02-16 09:45:00', 11, 2),
--- Usuario 5
 (5, 5, '2026-02-17 20:30:00', 17, 1),
 (5, 12, '2026-02-17 08:20:00', 21, 2),
 (5, 41, '2026-02-15 19:00:00', 6, 3),
--- Usuario 6
 (6, 6, '2026-02-16 14:25:00', 12, 1),
 (6, 28, '2026-02-16 08:00:00', 15, 2),
--- Usuario 7
 (7, 7, '2026-02-17 11:40:00', 9, 1),
 (7, 18, '2026-02-15 09:15:00', 13, 2),
 (7, 32, '2026-02-14 16:20:00', 4, 3),
--- Usuario 8
 (8, 8, '2026-02-15 16:50:00', 16, 1),
 (8, 20, '2026-02-15 08:45:00', 19, 2),
--- Usuario 9
 (9, 9, '2026-02-17 19:15:00', 11, 1),
 (9, 27, '2026-02-17 09:00:00', 14, 2),
 (9, 48, '2026-02-13 21:00:00', 7, 3),
--- Usuario 10
 (10, 10, '2026-02-16 10:30:00', 13, 1),
 (10, 30, '2026-02-16 08:30:00', 16, 2),
--- Continuamos con más usuarios...
 (11, 11, '2026-02-17 13:20:00', 15, 1),
 (11, 21, '2026-02-17 08:50:00', 12, 2),
 (12, 12, '2026-02-15 17:40:00', 7, 1),
@@ -2178,10 +2142,8 @@ INSERT INTO `UsuarioUbicacion` (`UsuarioId`, `UbicacionID`, `UltimaVezUsada`, `V
 (30, 30, '2026-02-16 11:50:00', 9, 1),
 (30, 45, '2026-02-16 09:35:00', 12, 2);
 
--- ============================================
 -- POSICIONES DE CONDUCTORES (últimas posiciones de conductores activos)
 -- Se generan varias posiciones para conductores en servicio
--- ============================================
 INSERT INTO `Posicion` (`id`, `Latitud`, `Longitud`, `Hora`, `ConductorId`) VALUES
 (1, '40.4168', '-3.7038', '2026-02-17 15:30:00', 1),
 (2, '40.4200', '-3.7050', '2026-02-17 15:35:00', 1),
@@ -2223,9 +2185,7 @@ COMMIT;
 
 START TRANSACTION;
 
--- ============================================
 -- PERMISOS
--- ============================================
 INSERT INTO `Permisos` (`Id`, `Nombre`, `Alta`, `Editado`) VALUES
 (1, 'VerDashboard', NOW(), NULL),
 (2, 'EditarUsuarios', NOW(), NULL),
@@ -2233,17 +2193,13 @@ INSERT INTO `Permisos` (`Id`, `Nombre`, `Alta`, `Editado`) VALUES
 (4, 'Conducir', NOW(), NULL),
 (5, 'PedirViaje', NOW(), NULL);
 
--- ============================================
 -- ROLES
--- ============================================
 INSERT INTO `Roles` (`Id`, `Nombre`, `Alta`, `Editado`) VALUES
 (1, 'Admin', NOW(), NULL),
 (2, 'Conductor', NOW(), NULL),
 (3, 'Cliente', NOW(), NULL);
 
--- ============================================
 -- ROLES-PERMISOS
--- ============================================
 INSERT INTO `RolesPermisos` (`RolId`, `PermisosId`) VALUES
 (1, 1), -- Admin: VerDashboard
 (1, 2), -- Admin: EditarUsuarios
@@ -2253,16 +2209,12 @@ INSERT INTO `RolesPermisos` (`RolId`, `PermisosId`) VALUES
 (3, 3), -- Cliente: VerViajes
 (3, 5); -- Cliente: PedirViaje
 
--- ============================================
 -- ROLES-USUARIO
--- ============================================
--- Usuario 1 es Admin, Conductor y Cliente
 INSERT INTO `RolesUsuario` (`RolId`, `UsuarioId`) VALUES
 (1, 1),
 (2, 1),
 (3, 1);
 
--- Usuarios Conductores (Impares del 3 al 49)
 INSERT INTO `RolesUsuario` (`RolId`, `UsuarioId`) VALUES
 (2, 3), (2, 5), (2, 7), (2, 9), (2, 11),
 (2, 13), (2, 15), (2, 17), (2, 19), (2, 21),
@@ -2270,7 +2222,6 @@ INSERT INTO `RolesUsuario` (`RolId`, `UsuarioId`) VALUES
 (2, 33), (2, 35), (2, 37), (2, 39), (2, 41),
 (2, 43), (2, 45), (2, 47), (2, 49);
 
--- Todos los usuarios son Clientes (1-100)
 INSERT INTO `RolesUsuario` (`RolId`, `UsuarioId`) VALUES
 (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10),
 (3, 11), (3, 12), (3, 13), (3, 14), (3, 15), (3, 16), (3, 17), (3, 18), (3, 19), (3, 20),
@@ -2284,24 +2235,3 @@ INSERT INTO `RolesUsuario` (`RolId`, `UsuarioId`) VALUES
 (3, 91), (3, 92), (3, 93), (3, 94), (3, 95), (3, 96), (3, 97), (3, 98), (3, 99), (3, 100);
 
 COMMIT;
-
--- ============================================
--- RESUMEN DE DATOS GENERADOS
--- ============================================
--- 3 Empresas de transporte
--- 100 Usuarios con información bancaria y telemetría
--- 20 Vehículos (10 activos, 10 de baja)
--- 25 Conductores (15 activos, 10 inactivos)
--- 50 Ubicaciones en Madrid
--- 500 Ofertas de viaje
--- 500 Viajes:
---   * 350 Finalizados (70%)
---   * 50 Cancelados (10%)
---   * 50 En curso (10%)
---   * 25 Aceptados (5%)
---   * 25 Solicitados (5%)
--- ~700 Transacciones (2 por cada viaje finalizado)
--- 30 Relaciones Usuario-Ubicación
--- 35 Posiciones de conductores
--- ============================================
-
