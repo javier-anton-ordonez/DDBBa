@@ -1,0 +1,240 @@
+{
+  "uid": "ride-hailing-business",
+  "title": "Ride Hailing — Business Metrics",
+  "tags": ["mysql", "ride-hailing", "business"],
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "refresh": "5m",
+  "panels": [
+    {
+      "id": 10,
+      "title": "Usuarios activos",
+      "type": "stat",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT COUNT(*) AS value FROM Usuario WHERE Baja IS NULL",
+        "refId": "A"
+      }],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] }
+        }
+      }
+    },
+    {
+      "id": 11,
+      "title": "Conductores activos",
+      "type": "stat",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT COUNT(*) AS value FROM Conductor WHERE Estado = 'Activo'",
+        "refId": "A"
+      }],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        }
+      }
+    },
+    {
+      "id": 12,
+      "title": "Viajes finalizados",
+      "type": "stat",
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT COUNT(*) AS value FROM Viaje WHERE Estado = 'Finalizado'",
+        "refId": "A"
+      }],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "purple", "value": null }] }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "title": "Ingresos totales",
+      "type": "stat",
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT ROUND(SUM(Cantidad), 2) AS value FROM Transacciones",
+        "refId": "A"
+      }],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyEUR",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "yellow", "value": null }] }
+        }
+      }
+    },
+    {
+      "id": 14,
+      "title": "Tasa de aceptación",
+      "type": "stat",
+      "gridPos": { "x": 0, "y": 4, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT ROUND(COUNT(DISTINCT CASE WHEN v.Estado != 'Solicitado' THEN v.OfertaId END) * 100.0 / COUNT(DISTINCT o.Id), 1) AS value FROM Oferta o LEFT JOIN Viaje v ON v.OfertaId = o.Id",
+        "refId": "A"
+      }],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 60 },
+              { "color": "green", "value": 80 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 15,
+      "title": "Nota media global",
+      "type": "stat",
+      "gridPos": { "x": 6, "y": 4, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT ROUND(AVG(Nota), 2) AS value FROM Viaje WHERE Nota IS NOT NULL",
+        "refId": "A"
+      }],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 3 },
+              { "color": "green", "value": 4 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 16,
+      "title": "Viajes por estado",
+      "type": "table",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT Estado AS estado, COUNT(*) AS total, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM Viaje), 1) AS porcentaje FROM Viaje GROUP BY Estado ORDER BY total DESC",
+        "refId": "A"
+      }],
+      "options": { "showHeader": true },
+      "fieldConfig": { "defaults": { "custom": { "align": "auto" } } }
+    },
+    {
+      "id": 17,
+      "title": "Ingresos por compañía",
+      "type": "table",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT co.Nombre AS compania, COUNT(v.Id) AS viajes, ROUND(SUM(t.Cantidad), 2) AS ingresos_eur, ROUND(AVG(t.Cantidad), 2) AS media_por_viaje FROM Compania co JOIN Conductor c ON c.EmpresaId = co.Id JOIN Viaje v ON v.ConductorId = c.Id AND v.Estado = 'Finalizado' JOIN Transacciones t ON t.ViajeId = v.Id GROUP BY co.Id, co.Nombre ORDER BY ingresos_eur DESC",
+        "refId": "A"
+      }],
+      "options": { "showHeader": true },
+      "fieldConfig": { "defaults": { "custom": { "align": "auto" } } }
+    },
+    {
+      "id": 18,
+      "title": "Nota media por compañía",
+      "type": "table",
+      "gridPos": { "x": 12, "y": 12, "w": 12, "h": 8 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT co.Nombre AS compania, COUNT(v.Id) AS viajes_valorados, ROUND(AVG(v.Nota), 2) AS nota_media FROM Compania co JOIN Conductor c ON c.EmpresaId = co.Id JOIN Viaje v ON v.ConductorId = c.Id WHERE v.Nota IS NOT NULL GROUP BY co.Id, co.Nombre ORDER BY nota_media DESC",
+        "refId": "A"
+      }],
+      "options": { "showHeader": true },
+      "fieldConfig": { "defaults": { "custom": { "align": "auto" } } }
+    },
+    {
+      "id": 19,
+      "title": "Tamaño de tablas",
+      "type": "table",
+      "gridPos": { "x": 0, "y": 16, "w": 24, "h": 6 },
+      "targets": [{
+        "datasource": { "type": "mysql", "uid": "mysql" },
+        "editorMode": "code",
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "SELECT table_name AS tabla, table_rows AS filas_estimadas, ROUND(data_length / 1024 / 1024, 3) AS datos_mb, ROUND(index_length / 1024 / 1024, 3) AS indices_mb, ROUND((data_length + index_length) / 1024 / 1024, 3) AS total_mb FROM information_schema.tables WHERE table_schema = 'ride_hailing_db' ORDER BY (data_length + index_length) DESC",
+        "refId": "A"
+      }],
+      "options": { "showHeader": true },
+      "fieldConfig": { "defaults": { "custom": { "align": "auto" } } }
+    }
+  ],
+  "time": { "from": "now-24h", "to": "now" }
+}

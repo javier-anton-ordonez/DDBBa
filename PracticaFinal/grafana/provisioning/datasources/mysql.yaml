@@ -1,0 +1,15 @@
+apiVersion: 1
+
+datasources:
+  - name: MySQL
+    type: mysql
+    uid: mysql
+    url: db-read-dashboard:3306
+    database: ride_hailing_db
+    user: dashboard_user
+    secureJsonData:
+      password: dashboard_password
+    jsonData:
+      maxOpenConns: 5
+      maxIdleConns: 2
+      connMaxLifetime: 14400
