@@ -15,13 +15,11 @@ wait_for_mysql() {
   echo "Listo"
 }
 
-# Esperar a todos los nodos
 wait_for_mysql db-master-1
 wait_for_mysql db-master-2
 wait_for_mysql db-read-app
 wait_for_mysql db-read-dashboard
 
-# ── Configurar db-master-2 (replicación bidireccional maestro-maestro) ──
 echo "Configurando db-master-2"
 mysql -h db-master-2 -u root -p"$ROOT_PASS" <<EOF
 STOP SLAVE;
