@@ -20,6 +20,18 @@ docker-compose -f docker-compose.yaml up -d --build
 docker exec -i ride-db-master-1 mysql -uroot -prootpassword ride_hailing_db < data.sql
 ```
 
+# Para acceder al dashboard de Grafana:
+
+Abre el navegador en:
+```
+http://localhost:3000
+```
+Usuario: `admin` — Contraseña: `admin`
+
+Los dashboards se cargan automáticamente al arrancar. Hay dos:
+- **Ride Hailing — Business Metrics**: métricas de negocio (viajes, ingresos, valoraciones, etc.)
+- **Ride Hailing — MySQL Overview**: métricas de la base de datos (conexiones, buffer pool, queries/s, etc.)
+
 # Para automatizar los backups, edita el crontab:
 
 ```bash
