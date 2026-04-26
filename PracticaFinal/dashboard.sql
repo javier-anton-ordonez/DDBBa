@@ -1,36 +1,4 @@
--- =============================================================
--- dashboard.sql — Vistas analíticas de negocio y de base de datos
--- Base de datos: ride_hailing_db
--- Estas vistas son usadas por el dashboard de Grafana (Business Metrics)
--- y están disponibles para consultas ad-hoc.
--- =============================================================
--- ÍNDICE:
---   SECCIÓN 1 — MÉTRICAS DE NEGOCIO
---     1.1  KPIs del sistema (usuarios, conductores, viajes, ingresos)
---     1.2  Viajes: volumen y distribución temporal
---     1.3  Tasa de aceptación
---     1.4  Ingresos por compañía y por conductor
---     1.5  Tiempo medio de viaje
---     1.6  Euros por minuto y euros por km
---     1.7  Kilometraje medio
---     1.8  Valoraciones y calidad del servicio
---     1.9  Actividad de usuarios
---   SECCIÓN 2 — MÉTRICAS DE BASE DE DATOS
---     2.1  Tamaño y filas por tabla
---     2.2  Conexiones activas
--- =============================================================
-
 USE ride_hailing_db;
-
-
--- =============================================================
--- SECCIÓN 1 — MÉTRICAS DE NEGOCIO
--- =============================================================
-
--- -------------------------------------------------------------
--- 1.1  KPIs DEL SISTEMA
--- Usadas por los paneles de stat en Grafana.
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_usuarios_activos AS
 SELECT COUNT(*) AS value
@@ -57,9 +25,7 @@ SELECT ROUND(AVG(Nota), 2) AS value
 FROM Viaje
 WHERE Nota IS NOT NULL;
 
--- -------------------------------------------------------------
 -- 1.2  VIAJES: VOLUMEN Y DISTRIBUCIÓN TEMPORAL
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_viajes_por_estado AS
 SELECT
@@ -106,9 +72,7 @@ WHERE v.Estado = 'Finalizado'
 GROUP BY dia_semana, DAYOFWEEK(v.Inicio)
 ORDER BY DAYOFWEEK(v.Inicio);
 
--- -------------------------------------------------------------
 -- 1.3  TASA DE ACEPTACIÓN
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_tasa_aceptacion AS
 SELECT
@@ -152,9 +116,7 @@ JOIN Viaje     v ON v.ConductorId = c.Id
 GROUP BY co.Id, co.Nombre
 ORDER BY tasa_finalizacion_pct DESC;
 
--- -------------------------------------------------------------
 -- 1.4  INGRESOS
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_ingresos_por_compania AS
 SELECT
@@ -184,9 +146,7 @@ JOIN Transacciones t ON t.ViajeId     = v.Id AND t.Cantidad > 0
 GROUP BY c.Id, conductor, compania
 ORDER BY ingresos_totales_eur DESC;
 
--- -------------------------------------------------------------
 -- 1.5  TIEMPO MEDIO DE VIAJE
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_duracion_media_por_conductor AS
 SELECT
@@ -216,9 +176,7 @@ WHERE v.Estado = 'Finalizado' AND v.Fin IS NOT NULL
 GROUP BY co.Id, co.Nombre
 ORDER BY duracion_media_min;
 
--- -------------------------------------------------------------
 -- 1.6  EUROS POR MINUTO Y EUROS POR KM
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_eur_por_minuto_por_conductor AS
 SELECT
@@ -249,9 +207,7 @@ JOIN Transacciones t ON t.ViajeId     = v.Id AND t.Cantidad > 0
 GROUP BY co.Id, co.Nombre
 ORDER BY eur_por_minuto DESC;
 
--- -------------------------------------------------------------
 -- 1.7  KILOMETRAJE MEDIO Y EUROS POR KM
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_km_y_eur_por_km_por_conductor AS
 SELECT
@@ -285,9 +241,7 @@ JOIN Transacciones t ON t.ViajeId     = v.Id AND t.Cantidad > 0
 GROUP BY co.Id, co.Nombre
 ORDER BY eur_por_km DESC;
 
--- -------------------------------------------------------------
 -- 1.8  VALORACIONES Y CALIDAD DEL SERVICIO
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_nota_media_por_conductor AS
 SELECT
@@ -326,9 +280,7 @@ WHERE v.Nota IS NOT NULL
 GROUP BY v.Nota
 ORDER BY v.Nota DESC;
 
--- -------------------------------------------------------------
 -- 1.9  ACTIVIDAD DE USUARIOS
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_top_usuarios_activos AS
 SELECT
@@ -361,13 +313,9 @@ WHERE t.UltimaVezConnectado < DATE_SUB(NOW(), INTERVAL 30 DAY)
 ORDER BY dias_inactivo DESC;
 
 
--- =============================================================
 -- SECCIÓN 2 — MÉTRICAS DE BASE DE DATOS
--- =============================================================
 
--- -------------------------------------------------------------
 -- 2.1  TAMAÑO Y NÚMERO DE FILAS POR TABLA
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_tamano_tablas AS
 SELECT
@@ -380,9 +328,7 @@ FROM information_schema.tables
 WHERE table_schema = 'ride_hailing_db'
 ORDER BY (data_length + index_length) DESC;
 
--- -------------------------------------------------------------
 -- 2.2  CONEXIONES ACTIVAS
--- -------------------------------------------------------------
 
 CREATE OR REPLACE VIEW v_conexiones_activas AS
 SELECT
