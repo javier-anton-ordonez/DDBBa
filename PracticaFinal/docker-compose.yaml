@@ -20,6 +20,7 @@ services:
       - ./schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
       - ./data.sql:/docker-entrypoint-initdb.d/02_data.sql
       - ./permissions.sql:/docker-entrypoint-initdb.d/03_permissions.sql
+      - ./dashboard.sql:/docker-entrypoint-initdb.d/04_dashboard.sql
     networks:
       - ride-network
     healthcheck:
