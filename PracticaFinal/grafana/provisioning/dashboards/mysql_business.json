@@ -91,7 +91,7 @@
         "editorMode": "code",
         "format": "table",
         "rawQuery": true,
-        "rawSql": "SELECT ROUND(SUM(Cantidad), 2) AS value FROM Transacciones",
+        "rawSql": "SELECT ROUND(SUM(Cantidad), 2) AS value FROM Transacciones WHERE Cantidad > 0",
         "refId": "A"
       }],
       "options": {
@@ -197,7 +197,7 @@
         "editorMode": "code",
         "format": "table",
         "rawQuery": true,
-        "rawSql": "SELECT co.Nombre AS compania, COUNT(v.Id) AS viajes, ROUND(SUM(t.Cantidad), 2) AS ingresos_eur, ROUND(AVG(t.Cantidad), 2) AS media_por_viaje FROM Compania co JOIN Conductor c ON c.EmpresaId = co.Id JOIN Viaje v ON v.ConductorId = c.Id AND v.Estado = 'Finalizado' JOIN Transacciones t ON t.ViajeId = v.Id GROUP BY co.Id, co.Nombre ORDER BY ingresos_eur DESC",
+        "rawSql": "SELECT co.Nombre AS compania, COUNT(v.Id) AS viajes, ROUND(SUM(t.Cantidad), 2) AS ingresos_eur, ROUND(AVG(t.Cantidad), 2) AS media_por_viaje FROM Compania co JOIN Conductor c ON c.EmpresaId = co.Id JOIN Viaje v ON v.ConductorId = c.Id AND v.Estado = 'Finalizado' JOIN Transacciones t ON t.ViajeId = v.Id AND t.Cantidad > 0 GROUP BY co.Id, co.Nombre ORDER BY ingresos_eur DESC",
         "refId": "A"
       }],
       "options": { "showHeader": true },
