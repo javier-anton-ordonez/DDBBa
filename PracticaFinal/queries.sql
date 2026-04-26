@@ -309,6 +309,3 @@ WHERE v.Estado = 'Finalizado'
 GROUP BY v.Id
 HAVING COUNT(t.Id) <> 2 OR ABS(SUM(t.Cantidad)) > 0.05
 ORDER BY v.Id;
-
-
--- Cambiar la particion de Posicion
