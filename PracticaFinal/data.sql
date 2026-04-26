@@ -6,9 +6,7 @@ INSERT INTO `Compania` (`id`, `Nombre`, `Logo`, `Email`, `Numero`) VALUES
 (2, 'DriveNow VTC', 'drivenow_logo.png', 'info@drivenow.es', '+34912345678'),
 (3, 'UrbanRide', 'urbanride_logo.png', 'soporte@urbanride.es', '+34913456789');
 
--- ============================================
 -- TIPOS DE UBICACIÓN
--- ============================================
 INSERT INTO `TipoUbicacion` (`Id`, `Nombre`) VALUES
 (1, 'Casa'),
 (2, 'Trabajo'),
