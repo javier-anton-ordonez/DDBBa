@@ -1,6 +1,237 @@
 USE ride_hailing_db;
 
 
+DELIMITER $$
+
+CREATE TRIGGER trg_oferta_before_insert
+BEFORE INSERT ON Oferta
+FOR EACH ROW
+BEGIN
+    DECLARE v_usuario_estado VARCHAR(10);
+    DECLARE v_precio_final   DOUBLE;
+
+    SELECT Estado INTO v_usuario_estado
+    FROM Usuario
+    WHERE Id = NEW.UsuarioId;
+
+    IF v_usuario_estado IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Oferta rechazada: el usuario no existe.';
+    END IF;
+
+    IF v_usuario_estado != 'Activo' THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Oferta rechazada: el usuario no está activo.';
+    END IF;
+
+    IF NEW.Precio IS NULL OR NEW.Precio <= 0 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Oferta rechazada: el precio debe ser mayor que 0.';
+    END IF;
+
+    SET v_precio_final = NEW.Precio - IFNULL(NEW.Descuento, 0);
+    IF v_precio_final < 0 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Oferta rechazada: el descuento supera el precio base.';
+    END IF;
+
+    IF NEW.OrigenId = NEW.DestinoId THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Oferta rechazada: el origen y el destino no pueden ser iguales.';
+    END IF;
+
+    SET NEW.Descuento = IFNULL(NEW.Descuento, 0);
+END$$
+
+
+CREATE TRIGGER trg_viaje_before_aceptar
+BEFORE UPDATE ON Viaje
+FOR EACH ROW
+BEGIN
+    DECLARE v_viajes_activos    INT;
+    DECLARE v_conductor_ocupado INT;
+    DECLARE v_carnet_caducidad  DATETIME;
+    DECLARE v_conductor_estado  VARCHAR(20);
+
+    IF NEW.Estado = 'Aceptado' AND OLD.Estado = 'Solicitado' THEN
+
+        SELECT COUNT(*) INTO v_viajes_activos
+        FROM Viaje
+        WHERE OfertaId = NEW.OfertaId
+          AND Estado IN ('Aceptado', 'En curso')
+          AND Id != NEW.Id;
+
+        IF v_viajes_activos > 0 THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Oferta ya aceptada por otro conductor.';
+        END IF;
+
+        SELECT COUNT(*) INTO v_conductor_ocupado
+        FROM Viaje
+        WHERE ConductorId = NEW.ConductorId
+          AND Estado IN ('Aceptado', 'En curso')
+          AND Id != NEW.Id;
+
+        IF v_conductor_ocupado > 0 THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'El conductor ya tiene un viaje activo en curso.';
+        END IF;
+
+        SELECT FechaDeCaducidadPermiso, Estado
+        INTO v_carnet_caducidad, v_conductor_estado
+        FROM Conductor
+        WHERE Id = NEW.ConductorId;
+
+        IF v_conductor_estado IS NULL THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'El conductor asignado no existe.';
+        END IF;
+
+        IF v_conductor_estado != 'Activo' THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'El conductor no está activo.';
+        END IF;
+
+        IF v_carnet_caducidad IS NOT NULL AND v_carnet_caducidad < NOW() THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Viaje rechazado: el carnet de conducir del conductor está caducado.';
+        END IF;
+
+    END IF;
+END$$
+
+
+CREATE TRIGGER trg_usuario_before_delete
+BEFORE DELETE ON Usuario
+FOR EACH ROW
+BEGIN
+    DECLARE v_viajes_activos INT;
+
+    SELECT COUNT(*) INTO v_viajes_activos
+    FROM Viaje v
+    JOIN Oferta o ON v.OfertaId = o.Id
+    WHERE o.UsuarioId = OLD.Id
+      AND v.Estado IN ('Solicitado', 'Aceptado', 'En curso');
+
+    IF v_viajes_activos > 0 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'No se puede eliminar el usuario: tiene viajes activos en curso.';
+    END IF;
+
+END$$
+
+	
+CREATE TRIGGER trg_conductor_before_delete
+BEFORE DELETE ON Conductor
+FOR EACH ROW
+BEGIN
+    DECLARE v_viajes_activos INT;
+
+    SELECT COUNT(*) INTO v_viajes_activos
+    FROM Viaje
+    WHERE ConductorId = OLD.Id
+      AND Estado IN ('Aceptado', 'En curso');
+
+    IF v_viajes_activos > 0 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'No se puede eliminar el conductor: tiene viajes activos. Espera a que finalicen.';
+    END IF;
+
+    IF OLD.VehiculoId IS NOT NULL THEN
+        UPDATE Vehiculo
+        SET Estado   = 'Disponible',
+            Editado  = NOW()
+        WHERE Id = OLD.VehiculoId;
+    END IF;
+
+END$$
+
+	
+CREATE TRIGGER trg_viaje_after_finalizado
+AFTER UPDATE ON Viaje
+FOR EACH ROW
+BEGIN
+    DECLARE v_precio_base    DOUBLE;
+    DECLARE v_descuento      DOUBLE;
+    DECLARE v_precio_final   DOUBLE;
+    DECLARE v_importe_driver DOUBLE;
+
+    DECLARE v_usuario_id       BIGINT;
+    DECLARE v_conductor_usr_id BIGINT;
+
+    DECLARE v_cuenta_usuario   BIGINT;
+    DECLARE v_cuenta_conductor BIGINT;
+
+    DECLARE v_new_id_t1 BIGINT;
+    DECLARE v_new_id_t2 BIGINT;
+
+    IF NEW.Estado = 'Finalizado' AND OLD.Estado != 'Finalizado' THEN
+
+        SELECT Precio, IFNULL(Descuento, 0), UsuarioId
+        INTO v_precio_base, v_descuento, v_usuario_id
+        FROM Oferta
+        WHERE Id = NEW.OfertaId;
+
+        SET v_precio_final   = v_precio_base - v_descuento;
+        SET v_importe_driver = v_precio_base * 0.80;
+
+        SELECT Id INTO v_cuenta_usuario
+        FROM Informacion_Bancaria
+        WHERE UsuarioId = v_usuario_id
+        LIMIT 1;
+
+        IF v_cuenta_usuario IS NULL THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'No se puede cerrar el viaje: el usuario no tiene cuenta bancaria registrada.';
+        END IF;
+
+        SELECT UsuarioId INTO v_conductor_usr_id
+        FROM Conductor
+        WHERE Id = NEW.ConductorId;
+
+        SELECT Id INTO v_cuenta_conductor
+        FROM Informacion_Bancaria
+        WHERE UsuarioId = v_conductor_usr_id
+        LIMIT 1;
+
+        IF v_cuenta_conductor IS NULL THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'No se puede cerrar el viaje: el conductor no tiene cuenta bancaria registrada.';
+        END IF;
+
+        SET v_new_id_t1 = FLOOR(RAND() * 9000000000) + 1000000000;
+        SET v_new_id_t2 = v_new_id_t1 + 1;
+
+        INSERT INTO Transacciones (Id, Cantidad, Momento, CuentaId, ViajeId, Alta)
+        VALUES (
+            v_new_id_t1,
+            -v_precio_final,
+            NOW(),
+            v_cuenta_usuario,
+            NEW.Id,
+            NOW()
+        );
+
+        INSERT INTO Transacciones (Id, Cantidad, Momento, CuentaId, ViajeId, Alta)
+        VALUES (
+            v_new_id_t2,
+            v_importe_driver,
+            NOW(),
+            v_cuenta_conductor,
+            NEW.Id,
+            NOW()
+        );
+
+        UPDATE Telemetria
+        SET NumeroViajes = NumeroViajes + 1,
+            Editado      = NOW()
+        WHERE UsuarioId = v_usuario_id;
+
+    END IF;
+END$$
+
+DELIMITER ;
+
 -- 1) CONSULTAS OPERATIVAS (LECTURA)
 
 -- 1.1 Historial de viajes de un rider (detalle completo)
