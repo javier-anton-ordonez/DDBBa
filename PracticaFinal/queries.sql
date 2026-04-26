@@ -135,9 +135,14 @@ WHERE OfertaId = @oferta_a_aceptar
   AND Estado = 'Solicitado'
   AND ConductorId IS NULL;
 
--- Si ROW_COUNT() = 1, conductor gano la carrera
--- Si ROW_COUNT() = 0, otro conductor ya acepto antes
-SELECT ROW_COUNT() AS filas_actualizadas;
+-- Si ROW_COUNT() = 1, el conductor se queda el viaje
+-- Si ROW_COUNT() = 0, otro conductor ya lo acepto antes
+SELECT
+	ROW_COUNT() AS filas_actualizadas,
+	CASE
+		WHEN ROW_COUNT() = 1 THEN 'aceptado'
+		ELSE 'ya_aceptado'
+	END AS resultado;
 
 COMMIT;
 
@@ -307,4 +312,3 @@ ORDER BY v.Id;
 
 
 -- Cambiar la particion de Posicion
-
